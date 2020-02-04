@@ -130,7 +130,7 @@ grid.table(x[2])
 ```
 
 The third one on the list is Guangdong province, where the SARS started in 2003.
-```{r}
+```{r, fig.height=6}
 grid.table(x[3])
 ```
 
@@ -152,7 +152,7 @@ grid.table(x[6])
 
 The rest of the provinces are listed below:
 
-```{r,fig.height=7}
+```{r,fig.height=11}
 for(i in 7:34)
 {
   grid.text(label = as.character(x[,1]$name[i]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))

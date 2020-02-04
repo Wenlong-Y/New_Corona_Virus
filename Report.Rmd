@@ -3,7 +3,7 @@ title: "nCoronaVirus_Report"
 author: "WY"
 date: "2/4/2020"
 output:
-  html_document:
+  github_document:
     df_print: paged
 ---
 

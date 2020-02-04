@@ -40,7 +40,7 @@ dataAdd <- dataAdd %>% mutate(month = as.numeric(month), day = as.numeric(day))
 dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 ```
 
-The last updated time is
+The last updated time (Beijing Time) is 
 
 ``` r
 x$lastUpdateTime

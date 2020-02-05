@@ -40,13 +40,13 @@ dataAdd <- dataAdd %>% mutate(month = as.numeric(month), day = as.numeric(day))
 dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 ```
 
-The last updated time is
+The last updated time (Beijing Time)is
 
 ``` r
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-05 12:50:13"
+    ## [1] "2020-02-05 23:08:09"
 
 Now we present the total number of confirmed and suspected respectively.
 
@@ -126,15 +126,10 @@ library(grid)
 library(gridExtra)
 areatotal <- cbind(x$areaTree$name,x$areaTree$total)
 names(areatotal)[1] <- "Country"
-png(filename = "totalbycountry.png", width=360,height=560,bg = "white")
 grid.table(areatotal)
-dev.off()
 ```
 
-    ## png 
-    ##   2
-
-![Cases by country](totalbycountry.png)
+![](Report_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 ## Cases by provinces and cities
 
@@ -197,7 +192,42 @@ grid.table(x[6])
 The rest of the provinces are listed below:
 
 ``` r
-for(i in 7:34)
+  grid.text(label = as.character(x[,1]$name[7]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
+  grid.table(x[7],vp=viewport(x=0.5,y=.5,width=1,height=1))
+```
+
+![](Report_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+``` r
+  grid.text(label = as.character(x[,1]$name[8]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
+  grid.table(x[8],vp=viewport(x=0.5,y=.5,width=1,height=1))
+```
+
+![](Report_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+``` r
+  grid.text(label = as.character(x[,1]$name[9]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
+  grid.table(x[9],vp=viewport(x=0.5,y=.5,width=1,height=1))
+```
+
+![](Report_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+``` r
+  grid.text(label = as.character(x[,1]$name[10]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
+  grid.table(x[10],vp=viewport(x=0.5,y=.5,width=1,height=1))
+```
+
+![](Report_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+
+``` r
+  grid.text(label = as.character(x[,1]$name[11]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
+  grid.table(x[11],vp=viewport(x=0.5,y=.5,width=1,height=1))
+```
+
+![](Report_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+
+``` r
+for(i in 12:34)
 {
   grid.text(label = as.character(x[,1]$name[i]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
   grid.table(x[i],vp=viewport(x=0.5,y=.5,width=1,height=1))
@@ -205,4 +235,4 @@ for(i in 7:34)
 }
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-2.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-3.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-4.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-5.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-6.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-7.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-8.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-9.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-10.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-11.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-12.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-13.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-14.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-15.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-16.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-17.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-18.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-19.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-20.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-21.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-22.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-23.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-24.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-25.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-26.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-27.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-18-28.png)<!-- -->
+![](Report_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-2.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-3.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-4.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-5.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-6.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-7.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-8.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-9.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-10.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-11.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-12.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-13.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-14.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-15.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-16.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-17.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-18.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-19.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-20.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-21.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-22.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-23.png)<!-- -->

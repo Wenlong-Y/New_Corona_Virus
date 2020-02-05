@@ -44,7 +44,7 @@ dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 
 ```
 
-The last updated time is
+The last updated time (Beijing Time)is
 ```{r}
 x$lastUpdateTime
 ```
@@ -103,34 +103,31 @@ dataAdd %>% ggplot() + geom_point(aes(date,dead,colour="Dead")) +geom_point(aes(
 ## Cases by country
 
 We just look at the total number of cases for countries:
-```{r, message=FALSE}
+```{r, message=FALSE, fig.height=8}
 library(grid)
 library(gridExtra)
 areatotal <- cbind(x$areaTree$name,x$areaTree$total)
 names(areatotal)[1] <- "Country"
-png(filename = "totalbycountry.png", width=360,height=560,bg = "white")
 grid.table(areatotal)
-dev.off()
 ```
 
-![Cases by country](totalbycountry.png)
 
 ## Cases by provinces and cities
 There are several provinces hit hard by the disease. We present the data for the first few provinces on the list.
 
 Hubei is where the disease started and majority of cases come from this province. It is believed that one of the wet market is the origin of the new corona virus.
 
-```{r}
+```{r, fig.height=6}
 grid.table(x[1])
 ```
 
 The second heavily infected province is Zhejiang. Here are the data for the cities in Zhejiang province.
-```{r}
+```{r, fig.height=4}
 grid.table(x[2])
 ```
 
 The third one on the list is Guangdong province, where the SARS started in 2003.
-```{r, fig.height=6}
+```{r, fig.height=7}
 grid.table(x[3])
 ```
 
@@ -146,14 +143,39 @@ grid.table(x[5])
 
 The sixth is Anhui, a province to the east of Hubei.
 
-```{r}
+```{r, fig.height=4}
 grid.table(x[6])
 ```
 
 The rest of the provinces are listed below:
 
-```{r,fig.height=11}
-for(i in 7:34)
+```{r, fig.height=6}
+  grid.text(label = as.character(x[,1]$name[7]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
+  grid.table(x[7],vp=viewport(x=0.5,y=.5,width=1,height=1))
+```
+
+```{r, fig.height=12}
+  grid.text(label = as.character(x[,1]$name[8]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
+  grid.table(x[8],vp=viewport(x=0.5,y=.5,width=1,height=1))
+```
+
+```{r, fig.height=5}
+  grid.text(label = as.character(x[,1]$name[9]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
+  grid.table(x[9],vp=viewport(x=0.5,y=.5,width=1,height=1))
+```
+
+```{r, fig.height=6}
+  grid.text(label = as.character(x[,1]$name[10]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
+  grid.table(x[10],vp=viewport(x=0.5,y=.5,width=1,height=1))
+```
+
+```{r, fig.height=8}
+  grid.text(label = as.character(x[,1]$name[11]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
+  grid.table(x[11],vp=viewport(x=0.5,y=.5,width=1,height=1))
+```
+
+```{r,fig.height=6}
+for(i in 12:34)
 {
   grid.text(label = as.character(x[,1]$name[i]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
   grid.table(x[i],vp=viewport(x=0.5,y=.5,width=1,height=1))

@@ -46,7 +46,7 @@ The last updated time is
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-05 10:55:07"
+    ## [1] "2020-02-05 12:50:13"
 
 Now we present the total number of confirmed and suspected respectively.
 

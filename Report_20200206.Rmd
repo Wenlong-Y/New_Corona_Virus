@@ -66,7 +66,7 @@ dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27))
 model <- lm(confandsusp ~ date, data=dataforfitting)
 plot(dataDay$date, dataDay$confandsusp, xlab = "Date", ylab = "confirmed + suspected" )
 abline(model)
-mtext(paste("The number of cases (suspected + confirmed) increases", as.character(floor(model$coefficients[2])),"per day on average after Jan 28th."))
+mtext(paste("The number of cases (suspected + confirmed) increases", as.character(floor(model$coefficients[2])),"per day on average after Jan 28th.\n with R-squared value of ",round(summary(model)$r.squared, digits=5),"."))
 ```
 
 

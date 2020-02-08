@@ -56,11 +56,19 @@ Now we present the total number of confirmed and suspected respectively.
 dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_point(aes(date,suspect,color="Suspect")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("blue","red"))
 ```
 
-Now we want to put an upper limit on infected cases, so we add up the confimred and suspected. Because a big portion of suspected cases become confirmed cases. This give us the following chart:
+Now we want to put an upper limit on infected cases, so we add up the confimred and suspected. Because a big portion of suspected cases become confirmed cases. 
+
+It is obvious that starting Jan. 28th, the increase of sum of confirmed and suspected case is on a straight line.
 
 ```{r}
-dataDay %>% ggplot(aes(date,confirm+suspect))+geom_point()
+dataDay <- dataDay %>% mutate(confandsusp = confirm + suspect)
+dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27)) 
+model <- lm(confandsusp ~ date, data=dataforfitting)
+plot(dataDay$date, dataDay$confandsusp, xlab = "Date", ylab = "confirmed + suspected" )
+abline(model)
+mtext(paste("The number of cases (suspected + confirmed) increases", as.character(floor(model$coefficients[2])),"per day on average after Jan 28th."))
 ```
+
 
 Now, we want to calculate the rate of death. There are several ways to do this, one way is to divide the dead by the confirmed cases.
 
@@ -111,4 +119,4 @@ names(areatotal)[1] <- "Country"
 grid.table(areatotal)
 ```
 
-##Cases by Chinese provinces are no longer provided by the package
+## Cases by Chinese provinces are no longer provided by the package

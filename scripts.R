@@ -28,7 +28,14 @@ dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_po
 dataDay %>% ggplot() + geom_point(aes(date,dead,colour="Dead")) +geom_point(aes(date,heal,color="Healed")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("black","red"))
 
 dataDay %>% ggplot(aes(date,deathoverconfirm))+geom_point()
-dataDay %>% ggplot(aes(date,confirm+suspect))+geom_point()
+dataDay <- dataDay %>% mutate(confandsusp = confirm + suspect)
+dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27)) 
+model <- lm(confandsusp ~ date, data=dataforfitting)
+plot(dataDay$date, dataDay$confandsusp )
+abline(model)
+
+dataDay %>% ggplot(aes(date,confandsusp))+geom_point()
+
 dataDay %>% ggplot()+geom_point(aes(date,dead/(confirm+suspect)))
 
 dataAdd %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_point(aes(date,suspect,color="Suspect")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("blue","red"))

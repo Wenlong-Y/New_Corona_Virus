@@ -58,11 +58,11 @@ dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_po
 
 Now we want to put an upper limit on infected cases, so we add up the confimred and suspected. Because a big portion of suspected cases become confirmed cases. 
 
-It is obvious that starting Jan. 28th, the increase of sum of confirmed and suspected case is on a straight line.
+It is obvious that starting Jan. 28th, the increase of sum of confirmed and suspected case is on a straight line until Feb. 9th. The line is fitted with data during this period.
 
 ```{r}
 dataDay <- dataDay %>% mutate(confandsusp = confirm + suspect)
-dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27)) 
+dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27) & date < make_date(2020,2,9)) 
 model <- lm(confandsusp ~ date, data=dataforfitting)
 plot(dataDay$date, dataDay$confandsusp, xlab = "Date", ylab = "confirmed + suspected" )
 abline(model)

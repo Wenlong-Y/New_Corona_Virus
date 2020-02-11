@@ -114,9 +114,31 @@ We just look at the total number of cases for countries:
 ```{r, message=FALSE, fig.height=8}
 library(grid)
 library(gridExtra)
-areatotal <- cbind(x$areaTree$name,x$areaTree$total)
+areatotal <- x$are$total %>% select(confirm, suspect, dead, heal,deadRate,healRate)
+areatotal <- cbind(x$areaTree$name,areatotal)
 names(areatotal)[1] <- "Country"
 grid.table(areatotal)
 ```
 
 ## Cases by Chinese provinces are no longer provided by the package
+
+The death rate for Hubei province and non-Hubei province is provided.
+
+```{r}
+deathrate<-x$dailyDeadRateHistory
+deathrate <- deathrate %>% mutate(hubeiRate=as.numeric(hubeiRate), notHubeiRate=as.numeric(notHubeiRate), countryRate=as.numeric(countryRate))
+deathrate <- deathrate %>% extract(date,c("month","day"), regex = "^(\\d+)\\.(\\d+)$",remove = FALSE) 
+deathrate <- deathrate %>% mutate(month = as.numeric(month), day = as.numeric(day))
+deathrate <- deathrate %>% mutate(date = make_date(2020,month,day))
+deathrate %>% ggplot()+geom_point(aes(date,hubeiRate,color="Hubei Rate"))+geom_point(aes(date,notHubeiRate,color="non-Hubei Rate"))+geom_point(aes(date,countryRate,color="country Rate"))+ ylab("Percentage(%)")
+```
+
+
+```{r,fig.height=8,fig.width=6}
+mytheme <- gridExtra::ttheme_default(core = list(fg_params=list(cex = 1.0)),colhead = list(fg_params=list(cex = 1.0)),rowhead = list(fg_params=list(cex = 1.0)))
+deathrate<-x$dailyDeadRateHistory
+names(deathrate) <- c("Date","hubei\nDead","hubei\nConfirm","country\nDead","country\nConfirm","hubei\nRate","notHubei\nRate","country\nRate")
+grid.table(deathrate,theme=mytheme)
+
+```
+

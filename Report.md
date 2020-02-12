@@ -19,7 +19,7 @@ library(nCov2019)
 library(utf8)
 library(tidyverse)
 library(lubridate)
-x <- get_nCov2019()
+x <- get_nCov2019(lang = "en")
 ```
 
 We start from two data sets in the packages: total
@@ -46,7 +46,7 @@ The last updated time (Beijing Time)is
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-06 10:36:46"
+    ## [1] "2020-02-13 01:54:53"
 
 Now we present the total number of confirmed and suspected respectively.
 
@@ -58,10 +58,19 @@ dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_po
 
 Now we want to put an upper limit on infected cases, so we add up the
 confimred and suspected. Because a big portion of suspected cases become
-confirmed cases. This give us the following chart:
+confirmed cases.
+
+It is obvious that starting Jan. 28th, the increase of sum of confirmed
+and suspected case is on a straight line until Feb. 9th. The line is
+fitted with data during this period.
 
 ``` r
-dataDay %>% ggplot(aes(date,confirm+suspect))+geom_point()
+dataDay <- dataDay %>% mutate(confandsusp = confirm + suspect)
+dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27) & date < make_date(2020,2,9)) 
+model <- lm(confandsusp ~ date, data=dataforfitting)
+plot(dataDay$date, dataDay$confandsusp, xlab = "Date", ylab = "confirmed + suspected" )
+abline(model)
+mtext(paste("The number of cases (suspected + confirmed) increases", as.character(floor(model$coefficients[2])),"per day on average after Jan 28th.\n with R-squared value of ",round(summary(model)$r.squared, digits=5),"."))
 ```
 
 ![](Report_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
@@ -124,115 +133,72 @@ We just look at the total number of cases for countries:
 ``` r
 library(grid)
 library(gridExtra)
-areatotal <- cbind(x$areaTree$name,x$areaTree$total)
+areatotal <- x$are$total %>% select(confirm, suspect, dead, heal,deadRate,healRate)
+areatotal <- cbind(x$areaTree$name,areatotal)
 names(areatotal)[1] <- "Country"
 grid.table(areatotal)
 ```
 
 ![](Report_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
-## Cases by provinces and cities
+## Cases by Chinese provinces
 
-There are several provinces hit hard by the disease. We present the data
-for the first few provinces on the list.
-
-Hubei is where the disease started and majority of cases come from this
-province. It is believed that one of the wet market is the origin of the
-new corona virus.
+The death rate for Hubei province and non-Hubei province is provided.
 
 ``` r
-grid.table(x[1])
+deathrate<-x$dailyDeadRateHistory
+deathrate <- deathrate %>% mutate(hubeiRate=as.numeric(hubeiRate), notHubeiRate=as.numeric(notHubeiRate), countryRate=as.numeric(countryRate))
+deathrate <- deathrate %>% extract(date,c("month","day"), regex = "^(\\d+)\\.(\\d+)$",remove = FALSE) 
+deathrate <- deathrate %>% mutate(month = as.numeric(month), day = as.numeric(day))
+deathrate <- deathrate %>% mutate(date = make_date(2020,month,day))
+deathrate %>% ggplot()+geom_point(aes(date,hubeiRate,color="Hubei Rate"))+geom_point(aes(date,notHubeiRate,color="non-Hubei Rate"))+geom_point(aes(date,countryRate,color="country Rate"))+ ylab("Percentage(%)")
 ```
 
 ![](Report_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
-The second heavily infected province is Zhejiang. Here are the data for
-the cities in Zhejiang province.
-
 ``` r
-grid.table(x[2])
+mytheme <- gridExtra::ttheme_default(core = list(fg_params=list(cex = 1.0)),colhead = list(fg_params=list(cex = 1.0)),rowhead = list(fg_params=list(cex = 1.0)))
+deathrate<-x$dailyDeadRateHistory
+names(deathrate) <- c("Date","hubei\nDead","hubei\nConfirm","country\nDead","country\nConfirm","hubei\nRate","notHubei\nRate","country\nRate")
+grid.table(deathrate,theme=mytheme)
 ```
 
 ![](Report_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
-The third one on the list is Guangdong province, where the SARS started
-in 2003.
+Detailed information for each province:
 
 ``` r
-grid.table(x[3])
-```
-
-![](Report_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
-
-The fourth is Henan, a province with a population of 94 million and is
-to the north of Hubei.
-
-``` r
-grid.table(x[4])
-```
-
-![](Report_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
-
-The fifth is Hunan, a province to the south of Hubei.
-
-``` r
-grid.table(x[5])
-```
-
-![](Report_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
-
-The sixth is Anhui, a province to the east of Hubei.
-
-``` r
-grid.table(x[6])
-```
-
-![](Report_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
-
-The rest of the provinces are listed below:
-
-``` r
-  grid.text(label = as.character(x[,1]$name[7]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
-  grid.table(x[7],vp=viewport(x=0.5,y=.5,width=1,height=1))
-```
-
-![](Report_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
-
-``` r
-  grid.text(label = as.character(x[,1]$name[8]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
-  grid.table(x[8],vp=viewport(x=0.5,y=.5,width=1,height=1))
-```
-
-![](Report_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
-
-``` r
-  grid.text(label = as.character(x[,1]$name[9]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
-  grid.table(x[9],vp=viewport(x=0.5,y=.5,width=1,height=1))
-```
-
-![](Report_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
-
-``` r
-  grid.text(label = as.character(x[,1]$name[10]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
-  grid.table(x[10],vp=viewport(x=0.5,y=.5,width=1,height=1))
-```
-
-![](Report_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
-
-``` r
-  grid.text(label = as.character(x[,1]$name[11]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
-  grid.table(x[11],vp=viewport(x=0.5,y=.5,width=1,height=1))
-```
-
-![](Report_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
-
-``` r
-for(i in 12:34)
+for(i in 1:34)
 {
-  grid.text(label = as.character(x[,1]$name[i]),x=0.1,y=0.5,rot=90, gp=gpar(cex=2))
-  grid.table(x[i],vp=viewport(x=0.5,y=.5,width=1,height=1))
+  grid.text(label = as.character(x[,1]$name[i]),x=0.5,y=.9, gp=gpar(cex=2))
+  if(dim(x[i])[1]<10){
+  grid.table(x[i] %>% select(name,confirm,dead,heal,deadRate,healRate),vp=viewport(x=0.5,y=.5,width=1,height=1))
   grid.newpage()
+  }
+  if(dim(x[i])[1]>=10){
+  grid.table(x[i] %>% head(10) %>% select(name,confirm,dead,heal,deadRate,healRate),vp=viewport(x=0.5,y=.5,width=1,height=1))
+  grid.newpage()
+  }
 }
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-2.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-3.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-4.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-5.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-6.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-7.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-8.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-9.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-10.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-11.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-12.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-13.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-14.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-15.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-16.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-17.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-18.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-19.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-20.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-21.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-22.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-23-23.png)<!-- -->
+![](Report_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-2.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-3.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-4.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-5.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-6.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-7.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-8.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-9.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-10.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-11.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-12.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-13.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-14.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-15.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-16.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-17.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-18.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-19.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-20.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-21.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-22.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-23.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-24.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-25.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-26.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-27.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-28.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-29.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-30.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-31.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-32.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-33.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-14-34.png)<!-- -->
+
+## The evolution of new corona virus in each province of China
+
+``` r
+y <- load_nCov2019(lang = "en")
+```
+
+``` r
+prov <- as.character( y$data$province %>% as.factor()%>% levels())
+for(provs in prov)
+{
+  if(y$data %>% filter(province==provs) %>% .$city %>% as.factor %>% levels %>% length != 1){
+p <- y$data %>% filter(province==provs,city!=provs) %>% group_by(city) %>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," confirmed"))
+print(p)
+}
+}
+```
+
+![](Report_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-2.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-3.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-4.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-5.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-6.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-7.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-8.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-9.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-10.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-11.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-12.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-13.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-14.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-15.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-16.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-17.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-18.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-19.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-20.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-21.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-22.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-23.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-24.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-25.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-26.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-16-27.png)<!-- -->

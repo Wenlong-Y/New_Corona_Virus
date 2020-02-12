@@ -6,6 +6,9 @@
 #git remote add origin https://github.com/Wenlong-Y/New_Corona_Virus.git
 #git push -u origin master
 
+#git add -A && git commit -m "Your Message"
+
+
 #remotes::install_github("GuangchuangYu/nCov2019")
 library(nCov2019)
 library(utf8)

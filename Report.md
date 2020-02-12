@@ -3,7 +3,7 @@ nCoronaVirus\_Report
 WY
 2/4/2020
 
-## Daily Update on the new corona virus statistics
+## Daily Update on the new corona virus statistics [(中文)](https://github.com/Wenlong-Y/New_Corona_Virus/blob/master/Report_CN.md)
 
 The data was obtained from an R package. To insall that R package. Use
 the following command:

@@ -1,0 +1,82 @@
+---
+title: "新冠状病毒报告"
+author: "WY"
+date: "2/4/2020"
+output:
+  github_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 每日冠状病毒传染数据
+
+数据来源是一个R数据包。. 可以用下面的命令安装该数据包
+
+```{r eval=FALSE}
+remotes::install_github("GuangchuangYu/nCov2019")
+```
+
+首先加载一些功能包和数据：
+```{r loading libraries and data, message=FALSE, warning=FALSE}
+library(nCov2019)
+library(tidyverse)
+library(lubridate)
+x <- get_nCov2019()
+```
+
+下面的命令用来整理数据：
+```{r data cleaning,}
+dataDay <- x$chinaDayList %>% mutate(confirm = as.numeric(confirm), suspect = as.numeric(suspect), dead = as.numeric(dead), heal = as.numeric(heal), deathoverconfirm = dead/confirm)
+dataDay <- dataDay %>% extract(date,c("month","day"), regex = "^(\\d+)\\.(\\d+)$",remove = FALSE) 
+dataDay <- dataDay %>% mutate(month = as.numeric(month), day = as.numeric(day))
+dataDay <- dataDay %>% mutate(date = make_date(2020,month,day))
+
+dataAdd <- x$chinaDayAddList %>% mutate(confirm = as.numeric(confirm), suspect = as.numeric(suspect), dead = as.numeric(dead), heal = as.numeric(heal), deathoverconfirm = dead/confirm)
+dataAdd <- dataAdd %>% extract(date,c("month","day"), regex = "^(\\d+)\\.(\\d+)$",remove = FALSE) 
+dataAdd <- dataAdd %>% mutate(month = as.numeric(month), day = as.numeric(day))
+dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
+
+```
+
+该数据的更新时间是（北京时间）：
+```{r}
+x$lastUpdateTime
+```
+
+
+确诊和疑似病例的数据如下：
+
+```{r, fig.showtext=TRUE}
+dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="确诊")) +geom_point(aes(date,suspect,color="疑似")) +theme(legend.position="right")+ylab("病例数")+xlab("日期")+labs(colour="类别")+scale_color_manual(values=c("blue","red"))
+```
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+library(ggplot2)
+```
+
+```{r, dev="cairo_pdf"}
+df <- data.frame(
+  gp = factor(rep(letters[1:3], each = 10)),
+  y = rnorm(30)
+)
+ds <- plyr::ddply(df, "gp", plyr::summarise, mean = mean(y), sd = sd(y))
+
+ggplot(df, aes(gp, y)) +
+  geom_point() +
+  geom_point(data = ds, aes(y = mean), colour = 'red', size = 3) +
+  labs(x = "中文", title="cairo_pdf device") +
+  #theme(axis.title.x=element_text(family="Batang")) # To change font only for x-axis title
+  theme(text=element_text(family="Batang", size=15)) 
+```
+
+```{r, dev="png", dpi=400}
+ggplot(df, aes(gp, y)) +
+  geom_point() +
+  geom_point(data = ds, aes(y = mean), colour = 'red', size = 3) +
+  labs(x = "中文", title="png device") +
+  theme(text=element_text(family="Batang", size=15)) 
+```

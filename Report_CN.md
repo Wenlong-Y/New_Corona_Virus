@@ -1,32 +1,31 @@
-nCoronaVirus\_Report
+新冠状病毒报告
 ================
 WY
 2/4/2020
 
-## Daily Update on the new corona virus statistics
+## 每日冠状病毒传染数据
 
-The data was obtained from an R package. To insall that R package. Use
-the following command:
+数据来源是一个R数据包。. 可以用下面的命令安装该数据包
 
 ``` r
 remotes::install_github("GuangchuangYu/nCov2019")
 ```
 
-Then, I loaded the libraries and data by:
+首先加载一些功能包和数据：
 
 ``` r
 library(nCov2019)
 library(utf8)
 library(tidyverse)
 library(lubridate)
+library(showtext)
+font_add("heiti", "simhei.ttf")
+font_add("constan", regular = "constan.ttf", italic = "constani.ttf")
+showtext_auto()
 x <- get_nCov2019()
 ```
 
-We start from two data sets in the packages: total
-confirmed/suspected/dead/recovered numbers of cases and the changes from
-the previous day.
-
-We tide up the data with commands below:
+下面的命令用来整理数据：
 
 ``` r
 dataDay <- x$chinaDayList %>% mutate(confirm = as.numeric(confirm), suspect = as.numeric(suspect), dead = as.numeric(dead), heal = as.numeric(heal), deathoverconfirm = dead/confirm)
@@ -40,7 +39,7 @@ dataAdd <- dataAdd %>% mutate(month = as.numeric(month), day = as.numeric(day))
 dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 ```
 
-The last updated time (Beijing Time)is
+该数据的更新时间是（北京时间）：
 
 ``` r
 x$lastUpdateTime
@@ -48,27 +47,24 @@ x$lastUpdateTime
 
     ## [1] "2020-02-13 03:57:23"
 
-Now we present the total number of confirmed and suspected respectively.
+确诊和疑似病例的数据如下：
 
 ``` r
-dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_point(aes(date,suspect,color="Suspect")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("blue","red"))
+showtext_auto()
+dataDay %>% ggplot() + geom_point(aes(date,confirm,colour=as_utf8("确诊"))) +geom_point(aes(date,suspect,color="疑似")) +theme(legend.position="right")+ylab("病例数")+xlab("日期")+labs(colour="类别")+scale_color_manual(values=c("blue","red"))
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-Now we want to put an upper limit on infected cases, so we add up the
-confimred and suspected. Because a big portion of suspected cases become
-confirmed cases.
+确认病理+疑似病例的变化如下：
 
-It is obvious that starting Jan. 28th, the increase of sum of confirmed
-and suspected case is on a straight line until Feb. 9th. The line is
-fitted with data during this period.
+1月28日到2月9日之间，该数据成直线上涨趋势。
 
 ``` r
 dataDay <- dataDay %>% mutate(confandsusp = confirm + suspect)
 dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27) & date < make_date(2020,2,9)) 
 model <- lm(confandsusp ~ date, data=dataforfitting)
-plot(dataDay$date, dataDay$confandsusp, xlab = "Date", ylab = "confirmed + suspected" )
+plot(dataDay$date, dataDay$confandsusp, xlab = as_utf8("日期"), ylab = "confirmed + suspected" )
 abline(model)
 mtext(paste("The number of cases (suspected + confirmed) increases", as.character(floor(model$coefficients[2])),"per day on average after Jan 28th.\n with R-squared value of ",round(summary(model)$r.squared, digits=5),"."))
 ```

@@ -46,12 +46,12 @@ dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-14 11:15:06"
+    ## [1] "2020-02-14 12:11:56"
 
 确诊和疑似病例的数据如下：
 
 ``` r
-dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="确诊")) +geom_point(aes(date,suspect,color="疑似")) +theme(legend.position="right")+ylab("病例数")+xlab("日期")+labs(colour="类别")+scale_color_manual(values=c("blue","red"))
+dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="确诊")) +geom_point(aes(date,suspect,color="疑似")) +theme(legend.position="right")+ylab("病例数")+labs(colour="类别")+scale_color_manual(values=c("blue","red"))+xlab("")
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
@@ -64,20 +64,20 @@ dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="确诊")) +geom_point
 dataDay <- dataDay %>% mutate(confandsusp = confirm + suspect)
 dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27) & date < make_date(2020,2,9)) 
 model <- lm(confandsusp ~ date, data=dataforfitting)
-plot(dataDay$date, dataDay$confandsusp, xlab = "日期", ylab = "确诊+疑似总和" )
+plot(dataDay$date, dataDay$confandsusp, ylab = "确诊+疑似总和", xlab = "" )
 abline(model)
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
-#mtext(paste("The number of cases (suspected + confirmed) increases", as.character(floor(model$coefficients[2])),"per day on average after Jan 28th.\n with R-squared value of ",round(summary(model)$r.squared, digits=5),"."))
+#mtext(paste("1月28日到2月9日之间，确诊+疑似呈直线上升趋势，上升速度为每天", as.character(floor(model$coefficients[2])),"。\n R平方值为 ",round(summary(model)$r.squared, digits=5),"."))
 ```
 
 死亡率：
 
 ``` r
-dataDay %>% ggplot(aes(date,deathoverconfirm))+geom_point()+ylab("死亡人数/确诊人数")+xlab("日期")
+dataDay %>% ggplot(aes(date,deathoverconfirm))+geom_point()+ylab("死亡人数/确诊人数")+xlab("")
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
@@ -85,61 +85,61 @@ dataDay %>% ggplot(aes(date,deathoverconfirm))+geom_point()+ylab("死亡人数/�
 死亡人数占死亡+康复人数之和：
 
 ``` r
-dataDay %>% ggplot()+geom_point(aes(date,dead/(heal+dead)))+ylab("死亡/(死亡+康复)")+xlab("日期")
+dataDay %>% ggplot()+geom_point(aes(date,dead/(heal+dead)))+ylab("死亡/(死亡+康复)")+xlab("")
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
-Here are the total dead and healed cases:
+死亡人数与康复人数：
 
 ``` r
-dataDay %>% ggplot() + geom_point(aes(date,dead,colour="Dead")) +geom_point(aes(date,heal,color="Healed")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("black","red"))
+dataDay %>% ggplot() + geom_point(aes(date,dead,colour="死亡")) +geom_point(aes(date,heal,color="康复")) +theme(legend.position="right")+ylab("人数")+labs(colour="类别")+scale_color_manual(values=c("black","red"))+xlab("")
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-Now we present the new cases on each day:
+下面是每天新增确诊和疑似病人数量:
 
 ``` r
-dataAdd %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_point(aes(date,suspect,color="Suspect")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("blue","red"))
+dataAdd %>% ggplot() + geom_point(aes(date,confirm,colour="确诊")) +geom_point(aes(date,suspect,color="疑似")) +theme(legend.position="right")+ylab("人数")+labs(colour="类别")+scale_color_manual(values=c("blue","red"))+xlab("")
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
-And the sum of newly confimred and suspected cases for each day:
+每天新增确诊与疑似病例之和：
 
 ``` r
-dataAdd %>% ggplot(aes(date,confirm+suspect))+geom_point()
+dataAdd %>% ggplot(aes(date,confirm+suspect))+geom_point()+ylab("人数")+xlab("")
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
-Here are daily numbers of death and recovery:
+每天的死亡与康复人数：
 
 ``` r
-dataAdd %>% ggplot() + geom_point(aes(date,dead,colour="Dead")) +geom_point(aes(date,heal,color="Healed")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("black","red"))
+dataAdd %>% ggplot() + geom_point(aes(date,dead,colour="死亡")) +geom_point(aes(date,heal,color="康复")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("black","red"))+xlab("")
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
-## Cases by country
+## 各个国家的病例统计
 
-We just look at the total number of cases for countries:
+各个国家的确诊总数：
 
 ``` r
 library(grid)
 library(gridExtra)
 areatotal <- x$are$total %>% select(confirm, suspect, dead, heal,deadRate,healRate)
 areatotal <- cbind(x$areaTree$name,areatotal)
-names(areatotal)[1] <- "Country"
+names(areatotal)[1] <- "国家"
 grid.table(areatotal)
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
-## Cases by Chinese provinces
+## 中国各省的感染情况
 
-The death rate for Hubei province and non-Hubei province is provided.
+湖北和非湖北省的死亡人数和死亡率等：
 
 ``` r
 deathrate<-x$dailyDeadRateHistory
@@ -147,7 +147,7 @@ deathrate <- deathrate %>% mutate(hubeiRate=as.numeric(hubeiRate), notHubeiRate=
 deathrate <- deathrate %>% extract(date,c("month","day"), regex = "^(\\d+)\\.(\\d+)$",remove = FALSE) 
 deathrate <- deathrate %>% mutate(month = as.numeric(month), day = as.numeric(day))
 deathrate <- deathrate %>% mutate(date = make_date(2020,month,day))
-deathrate %>% ggplot()+geom_point(aes(date,hubeiRate,color="Hubei Rate"))+geom_point(aes(date,notHubeiRate,color="non-Hubei Rate"))+geom_point(aes(date,countryRate,color="country Rate"))+ ylab("Percentage(%)")
+deathrate %>% ggplot()+geom_point(aes(date,hubeiRate,color="湖北死亡率"))+geom_point(aes(date,notHubeiRate,color="非湖北死亡率"))+geom_point(aes(date,countryRate,color="中国总死亡率"))+ ylab("百分比(%)")+xlab("")
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
@@ -155,13 +155,13 @@ deathrate %>% ggplot()+geom_point(aes(date,hubeiRate,color="Hubei Rate"))+geom_p
 ``` r
 mytheme <- gridExtra::ttheme_default(core = list(fg_params=list(cex = 1.0)),colhead = list(fg_params=list(cex = 1.0)),rowhead = list(fg_params=list(cex = 1.0)))
 deathrate<-x$dailyDeadRateHistory
-names(deathrate) <- c("Date","hubei\nDead","hubei\nConfirm","country\nDead","country\nConfirm","hubei\nRate","notHubei\nRate","country\nRate")
+names(deathrate) <- c("日期","湖北\n死亡","湖北\n确诊","全国\n死亡","全国\n确诊","湖北\n死亡率","非湖北\n死亡率","全国\n死亡率")
 grid.table(deathrate,theme=mytheme)
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
-Detailed information for each province:
+各省具体情况（其中表格的数据是最新数据，而历史数据，更新并不及时）：
 
 ``` r
 y <- load_nCov2019()
@@ -182,13 +182,13 @@ for(i in 1:34)
   provs <- as.character(x[,1]$name[i])
   
     if(y$data %>% filter(province==provs) %>% .$city %>% as.factor %>% levels %>% length != 1){
-p <- y$data %>% filter(province==provs,city!=provs) %>% group_by(city) %>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," confirmed"))
+p <- y$data %>% filter(province==provs,city!=provs) %>% group_by(city) %>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," 确诊人数"))+xlab("")
 print(p)
 grid.newpage()
     }
   
       if(y$data %>% filter(province==provs) %>% .$city %>% as.factor %>% levels %>% length == 1){
-p <- y$data %>% filter(province==provs)%>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," confirmed"))
+p <- y$data %>% filter(province==provs)%>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," 确诊人数"))+xlab("")
 print(p)
 grid.newpage()
     }

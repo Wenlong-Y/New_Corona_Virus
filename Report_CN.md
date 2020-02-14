@@ -14,14 +14,15 @@ remotes::install_github("GuangchuangYu/nCov2019")
 首先加载一些功能包和数据：
 
 ``` r
+Sys.setlocale(category = "LC_ALL", locale = "chs")
+```
+
+    ## [1] "LC_COLLATE=Chinese (Simplified)_China.936;LC_CTYPE=Chinese (Simplified)_China.936;LC_MONETARY=Chinese (Simplified)_China.936;LC_NUMERIC=C;LC_TIME=Chinese (Simplified)_China.936"
+
+``` r
 library(nCov2019)
-library(utf8)
 library(tidyverse)
 library(lubridate)
-library(showtext)
-font_add("heiti", "simhei.ttf")
-font_add("constan", regular = "constan.ttf", italic = "constani.ttf")
-showtext_auto()
 x <- get_nCov2019()
 ```
 
@@ -45,13 +46,12 @@ dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-13 03:57:23"
+    ## [1] "2020-02-14 11:15:06"
 
 确诊和疑似病例的数据如下：
 
 ``` r
-showtext_auto()
-dataDay %>% ggplot() + geom_point(aes(date,confirm,colour=as_utf8("确诊"))) +geom_point(aes(date,suspect,color="疑似")) +theme(legend.position="right")+ylab("病例数")+xlab("日期")+labs(colour="类别")+scale_color_manual(values=c("blue","red"))
+dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="确诊")) +geom_point(aes(date,suspect,color="疑似")) +theme(legend.position="right")+ylab("病例数")+xlab("日期")+labs(colour="类别")+scale_color_manual(values=c("blue","red"))
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
@@ -64,28 +64,28 @@ dataDay %>% ggplot() + geom_point(aes(date,confirm,colour=as_utf8("确诊"))) +g
 dataDay <- dataDay %>% mutate(confandsusp = confirm + suspect)
 dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27) & date < make_date(2020,2,9)) 
 model <- lm(confandsusp ~ date, data=dataforfitting)
-plot(dataDay$date, dataDay$confandsusp, xlab = as_utf8("日期"), ylab = "confirmed + suspected" )
+plot(dataDay$date, dataDay$confandsusp, xlab = "日期", ylab = "确诊+疑似总和" )
 abline(model)
-mtext(paste("The number of cases (suspected + confirmed) increases", as.character(floor(model$coefficients[2])),"per day on average after Jan 28th.\n with R-squared value of ",round(summary(model)$r.squared, digits=5),"."))
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-Now, we want to calculate the rate of death. There are several ways to
-do this, one way is to divide the dead by the confirmed cases.
+``` r
+#mtext(paste("The number of cases (suspected + confirmed) increases", as.character(floor(model$coefficients[2])),"per day on average after Jan 28th.\n with R-squared value of ",round(summary(model)$r.squared, digits=5),"."))
+```
+
+死亡率：
 
 ``` r
-dataDay %>% ggplot(aes(date,deathoverconfirm))+geom_point()
+dataDay %>% ggplot(aes(date,deathoverconfirm))+geom_point()+ylab("死亡人数/确诊人数")+xlab("日期")
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-Another way of calculation is to use dead and recovered as total number
-of cases that we know the results. Then we could find the portion of
-cases result in death.
+死亡人数占死亡+康复人数之和：
 
 ``` r
-dataDay %>% ggplot()+geom_point(aes(date,dead/(heal+dead)))
+dataDay %>% ggplot()+geom_point(aes(date,dead/(heal+dead)))+ylab("死亡/(死亡+康复)")+xlab("日期")
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->

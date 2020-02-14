@@ -8,7 +8,7 @@
 
 #git add -A && git commit -m "Your Message"
 
-
+#Sys.setenv("TAR" = "internal")
 #remotes::install_github("GuangchuangYu/nCov2019")
 library(nCov2019)
 library(utf8)

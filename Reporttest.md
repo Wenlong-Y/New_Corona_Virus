@@ -3,7 +3,7 @@ nCoronaVirus\_Report
 WY
 2/4/2020
 
-## Daily Update on the new corona virus statistics [(中文)](https://github.com/Wenlong-Y/New_Corona_Virus/blob/master/Report_CN.md)
+## Daily Update on the new corona virus statistics
 
 The data was obtained from an R package. To insall that R package. Use
 the following command:
@@ -46,7 +46,7 @@ The last updated time (Beijing Time)is
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-14 11:06:51"
+    ## [1] "2020-02-13 03:57:23"
 
 Now we present the total number of confirmed and suspected respectively.
 
@@ -54,7 +54,7 @@ Now we present the total number of confirmed and suspected respectively.
 dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_point(aes(date,suspect,color="Suspect")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("blue","red"))
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 Now we want to put an upper limit on infected cases, so we add up the
 confimred and suspected. Because a big portion of suspected cases become
@@ -73,7 +73,7 @@ abline(model)
 mtext(paste("The number of cases (suspected + confirmed) increases", as.character(floor(model$coefficients[2])),"per day on average after Jan 28th.\n with R-squared value of ",round(summary(model)$r.squared, digits=5),"."))
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 Now, we want to calculate the rate of death. There are several ways to
 do this, one way is to divide the dead by the confirmed cases.
@@ -82,7 +82,7 @@ do this, one way is to divide the dead by the confirmed cases.
 dataDay %>% ggplot(aes(date,deathoverconfirm))+geom_point()
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 Another way of calculation is to use dead and recovered as total number
 of cases that we know the results. Then we could find the portion of
@@ -92,7 +92,7 @@ cases result in death.
 dataDay %>% ggplot()+geom_point(aes(date,dead/(heal+dead)))
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 Here are the total dead and healed cases:
 
@@ -100,7 +100,7 @@ Here are the total dead and healed cases:
 dataDay %>% ggplot() + geom_point(aes(date,dead,colour="Dead")) +geom_point(aes(date,heal,color="Healed")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("black","red"))
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 Now we present the new cases on each day:
 
@@ -108,7 +108,7 @@ Now we present the new cases on each day:
 dataAdd %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_point(aes(date,suspect,color="Suspect")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("blue","red"))
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 And the sum of newly confimred and suspected cases for each day:
 
@@ -116,7 +116,7 @@ And the sum of newly confimred and suspected cases for each day:
 dataAdd %>% ggplot(aes(date,confirm+suspect))+geom_point()
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 Here are daily numbers of death and recovery:
 
@@ -124,7 +124,7 @@ Here are daily numbers of death and recovery:
 dataAdd %>% ggplot() + geom_point(aes(date,dead,colour="Dead")) +geom_point(aes(date,heal,color="Healed")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("black","red"))
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ## Cases by country
 
@@ -139,7 +139,7 @@ names(areatotal)[1] <- "Country"
 grid.table(areatotal)
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 ## Cases by Chinese provinces
 
@@ -154,7 +154,7 @@ deathrate <- deathrate %>% mutate(date = make_date(2020,month,day))
 deathrate %>% ggplot()+geom_point(aes(date,hubeiRate,color="Hubei Rate"))+geom_point(aes(date,notHubeiRate,color="non-Hubei Rate"))+geom_point(aes(date,countryRate,color="country Rate"))+ ylab("Percentage(%)")
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ``` r
 mytheme <- gridExtra::ttheme_default(core = list(fg_params=list(cex = 1.0)),colhead = list(fg_params=list(cex = 1.0)),rowhead = list(fg_params=list(cex = 1.0)))
@@ -163,7 +163,7 @@ names(deathrate) <- c("Date","hubei\nDead","hubei\nConfirm","country\nDead","cou
 grid.table(deathrate,theme=mytheme)
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 Detailed information for each province:
 
@@ -200,4 +200,4 @@ grid.newpage()
 }
 ```
 
-![](Report_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-2.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-3.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-4.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-5.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-6.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-7.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-8.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-9.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-10.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-11.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-12.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-13.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-14.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-15.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-16.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-17.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-18.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-19.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-20.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-21.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-22.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-23.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-24.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-25.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-26.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-27.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-28.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-29.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-30.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-31.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-32.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-33.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-34.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-35.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-36.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-37.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-38.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-39.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-40.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-41.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-42.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-43.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-44.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-45.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-46.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-47.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-48.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-49.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-50.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-51.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-52.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-53.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-54.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-55.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-56.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-57.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-58.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-59.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-60.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-61.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-62.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-63.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-64.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-65.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-66.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-67.png)<!-- -->![](Report_files/figure-gfm/unnamed-chunk-15-68.png)<!-- -->
+![](Reporttest_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-2.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-3.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-4.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-5.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-6.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-7.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-8.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-9.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-10.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-11.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-12.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-13.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-14.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-15.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-16.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-17.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-18.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-19.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-20.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-21.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-22.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-23.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-24.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-25.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-26.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-27.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-28.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-29.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-30.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-31.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-32.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-33.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-34.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-35.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-36.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-37.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-38.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-39.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-40.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-41.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-42.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-43.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-44.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-45.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-46.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-47.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-48.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-49.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-50.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-51.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-52.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-53.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-54.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-55.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-56.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-57.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-58.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-59.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-60.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-61.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-62.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-63.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-64.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-65.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-66.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-67.png)<!-- -->![](Reporttest_files/figure-gfm/unnamed-chunk-15-68.png)<!-- -->

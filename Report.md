@@ -46,7 +46,7 @@ The last updated time (Beijing Time)is
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-15 10:57:37"
+    ## [1] "2020-02-16 02:32:10"
 
 Now we present the total number of confirmed and suspected respectively.
 
@@ -159,7 +159,7 @@ deathrate %>% ggplot()+geom_point(aes(date,hubeiRate,color="Hubei Rate"))+geom_p
 ``` r
 mytheme <- gridExtra::ttheme_default(core = list(fg_params=list(cex = 1.0)),colhead = list(fg_params=list(cex = 1.0)),rowhead = list(fg_params=list(cex = 1.0)))
 deathrate<-x$dailyDeadRateHistory
-names(deathrate) <- c("Date","hubei\nDead","hubei\nConfirm","country\nDead","country\nConfirm","hubei\nRate","notHubei\nRate","country\nRate")
+names(deathrate) <- c("Date","hubei\nRate","notHubei\nRate","country\nRate")
 grid.table(deathrate,theme=mytheme)
 ```
 

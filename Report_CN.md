@@ -46,7 +46,7 @@ dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-15 10:57:37"
+    ## [1] "2020-02-16 02:32:10"
 
 确诊和疑似病例的数据如下：
 
@@ -155,7 +155,7 @@ deathrate %>% ggplot()+geom_point(aes(date,hubeiRate,color="湖北死亡率"))+g
 ``` r
 mytheme <- gridExtra::ttheme_default(core = list(fg_params=list(cex = 1.0)),colhead = list(fg_params=list(cex = 1.0)),rowhead = list(fg_params=list(cex = 1.0)))
 deathrate<-x$dailyDeadRateHistory
-names(deathrate) <- c("日期","湖北\n死亡","湖北\n确诊","全国\n死亡","全国\n确诊","湖北\n死亡率","非湖北\n死亡率","全国\n死亡率")
+names(deathrate) <- c("日期","湖北\n死亡率","非湖北\n死亡率","全国\n死亡率")
 grid.table(deathrate,theme=mytheme)
 ```
 

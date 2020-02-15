@@ -135,7 +135,7 @@ deathrate %>% ggplot()+geom_point(aes(date,hubeiRate,color="湖北死亡率"))+g
 ```{r,fig.height=8,fig.width=6}
 mytheme <- gridExtra::ttheme_default(core = list(fg_params=list(cex = 1.0)),colhead = list(fg_params=list(cex = 1.0)),rowhead = list(fg_params=list(cex = 1.0)))
 deathrate<-x$dailyDeadRateHistory
-names(deathrate) <- c("日期","湖北\n死亡","湖北\n确诊","全国\n死亡","全国\n确诊","湖北\n死亡率","非湖北\n死亡率","全国\n死亡率")
+names(deathrate) <- c("日期","湖北\n死亡率","非湖北\n死亡率","全国\n死亡率")
 grid.table(deathrate,theme=mytheme)
 
 ```

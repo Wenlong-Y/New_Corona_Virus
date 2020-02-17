@@ -133,15 +133,6 @@ deathrate <- deathrate %>% mutate(date = make_date(2020,month,day))
 deathrate %>% ggplot()+geom_point(aes(date,hubeiRate,color="Hubei Rate"))+geom_point(aes(date,notHubeiRate,color="non-Hubei Rate"))+geom_point(aes(date,countryRate,color="country Rate"))+ ylab("Percentage(%)")
 ```
 
-
-```{r,fig.height=8,fig.width=6}
-mytheme <- gridExtra::ttheme_default(core = list(fg_params=list(cex = 1.0)),colhead = list(fg_params=list(cex = 1.0)),rowhead = list(fg_params=list(cex = 1.0)))
-deathrate<-x$dailyDeadRateHistory
-names(deathrate) <- c("Date","hubei\nRate","notHubei\nRate","country\nRate")
-grid.table(deathrate,theme=mytheme)
-
-```
-
 Detailed information for each province:
 
 ```{r,  warning=FALSE}

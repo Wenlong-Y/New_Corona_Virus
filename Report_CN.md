@@ -46,7 +46,7 @@ dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-17 11:08:08"
+    ## [1] "2020-02-17 23:56:15"
 
 确诊和疑似病例的数据如下：
 
@@ -64,15 +64,15 @@ dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="确诊")) +geom_point
 dataDay <- dataDay %>% mutate(confandsusp = confirm + suspect)
 dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27) & date < make_date(2020,2,9)) 
 model <- lm(confandsusp ~ date, data=dataforfitting)
+dataforfitting2 <- dataDay %>% filter(date >= make_date(2020,2,13)) 
+model2 <- lm(confandsusp ~ date, data=dataforfitting2)
 plot(dataDay$date, dataDay$confandsusp, ylab = "确诊+疑似总和", xlab = "" )
 abline(model)
+abline(model2)
+mtext(paste("1月28日到2月9日之间，确诊+疑似呈直线上升趋势，上升速度为每天", as.character(floor(model$coefficients[2])),"。\n R平方值为 ",round(summary(model)$r.squared, digits=5),".\n","2月13日后, 确诊+疑似病例每天增加",as.character(floor(model2$coefficients[2])), "\n R平方值为", round(summary(model2)$r.squared, digits=5),"."))
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
-
-``` r
-#mtext(paste("1月28日到2月9日之间，确诊+疑似呈直线上升趋势，上升速度为每天", as.character(floor(model$coefficients[2])),"。\n R平方值为 ",round(summary(model)$r.squared, digits=5),"."))
-```
 
 死亡率：
 

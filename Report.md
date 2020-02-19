@@ -46,7 +46,7 @@ The last updated time (Beijing Time)is
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-19 08:53:00"
+    ## [1] "2020-02-19 20:41:51"
 
 Now we present the total number of confirmed and suspected respectively.
 
@@ -180,13 +180,13 @@ for(i in 1:34)
   provs <- as.character(x[,1]$name[i])
   
     if(y$data %>% filter(province==provs) %>% .$city %>% as.factor %>% levels %>% length != 1){
-p <- y$data %>% filter(province==provs,city!=provs) %>% group_by(city) %>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," confirmed"))
+p <- y$data %>% filter(province==provs,city!=provs) %>% group_by(city) %>% ggplot(color=city) + geom_line(aes(time,confirmed,color=city))+geom_point(aes(time,confirmed,color=city))+ylab(paste(provs," confirmed"))
 print(p)
 grid.newpage()
     }
   
       if(y$data %>% filter(province==provs) %>% .$city %>% as.factor %>% levels %>% length == 1){
-p <- y$data %>% filter(province==provs)%>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," confirmed"))
+p <- y$data %>% filter(province==provs)%>% ggplot(color=city) + geom_line(aes(time,confirmed,color=city))+geom_point(aes(time,confirmed,color=city))+ylab(paste(provs," confirmed"))
 print(p)
 grid.newpage()
     }

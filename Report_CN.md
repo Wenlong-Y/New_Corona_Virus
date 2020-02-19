@@ -46,7 +46,7 @@ dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-19 09:26:08"
+    ## [1] "2020-02-19 20:41:51"
 
 确诊和疑似病例的数据如下：
 
@@ -173,13 +173,13 @@ for(i in 1:34)
   provs <- as.character(x[,1]$name[i])
   
     if(y$data %>% filter(province==provs) %>% .$city %>% as.factor %>% levels %>% length != 1){
-p <- y$data %>% filter(province==provs,city!=provs) %>% group_by(city) %>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," 确诊人数"))+xlab("")
+p <- y$data %>% filter(province==provs,city!=provs) %>% group_by(city) %>% ggplot(color=city) + geom_line(aes(time,confirmed,color=city))+geom_point(aes(time,confirmed,color=city))+ylab(paste(provs," 确诊人数"))+xlab("")
 print(p)
 grid.newpage()
     }
   
       if(y$data %>% filter(province==provs) %>% .$city %>% as.factor %>% levels %>% length == 1){
-p <- y$data %>% filter(province==provs)%>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," 确诊人数"))+xlab("")
+p <- y$data %>% filter(province==provs)%>% ggplot(color=city) + geom_line(aes(time,confirmed,color=city))+geom_point(aes(time,confirmed,color=city))+ylab(paste(provs," 确诊人数"))+xlab("")
 print(p)
 grid.newpage()
     }

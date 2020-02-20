@@ -49,3 +49,4 @@ dataAdd %>% ggplot(aes(date,confirm+suspect))+geom_point()
 dataAdd %>% ggplot()+geom_point(aes(date,dead/(confirm+suspect)))
 
 
+y <- load_nCov2019(lang = "en")

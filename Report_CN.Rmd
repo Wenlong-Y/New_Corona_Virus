@@ -116,7 +116,7 @@ dataAdd %>% ggplot() + geom_point(aes(date,dead,colour="死亡")) +geom_point(ae
 library(grid)
 library(gridExtra)
 areatotal <- x$are$total %>% select(confirm, suspect, dead, heal,deadRate,healRate)
-areatotal <- cbind(x$areaTree$name,areatotal)
+areatotal <- cbind(x$areaTree$name,areatotal) %>% head(25)
 names(areatotal)[1] <- "国家"
 grid.table(areatotal)
 ```

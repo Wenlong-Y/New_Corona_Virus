@@ -46,7 +46,7 @@ The last updated time (Beijing Time)is
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-21 12:01:21"
+    ## [1] "2020-02-22 10:13:39"
 
 Now we present the total number of confirmed and suspected respectively.
 
@@ -136,9 +136,12 @@ We just look at the total number of cases for countries:
 ``` r
 library(grid)
 library(gridExtra)
-areatotal <- x$are$total %>% select(confirm, suspect, dead, heal,deadRate,healRate)
-areatotal <- cbind(x$areaTree$name,areatotal)
-names(areatotal)[1] <- "Country"
+areatotal <- x$areaTree$total %>% select(confirm, suspect, dead, heal,deadRate,healRate)
+x$areaTree$name[2] <- "Dimaond ship"
+x$areaTree$name[4] <- "Japan homeland"
+x$areaTree$name[10] <- "Iran"
+areatotal <- (cbind(x$areaTree$name,areatotal) %>% head(25))
+names(areatotal)[1] <- "Country"  
 grid.table(areatotal)
 ```
 

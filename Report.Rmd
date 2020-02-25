@@ -118,9 +118,9 @@ We just look at the total number of cases for countries:
 library(grid)
 library(gridExtra)
 areatotal <- x$areaTree$total %>% select(confirm, suspect, dead, heal,deadRate,healRate)
-x$areaTree$name[2] <- "Dimaond ship"
-x$areaTree$name[4] <- "Japan homeland"
-x$areaTree$name[10] <- "Iran"
+#x$areaTree$name[2] <- "Dimaond ship"
+#x$areaTree$name[4] <- "Japan homeland"
+#x$areaTree$name[10] <- "Iran"
 areatotal <- (cbind(x$areaTree$name,areatotal) %>% head(25))
 names(areatotal)[1] <- "Country"  
 grid.table(areatotal)
@@ -131,8 +131,8 @@ grid.table(areatotal)
 The death rate for Hubei province and non-Hubei province is provided.
 
 ```{r}
-deathrate<-x$dailyDeadRateHistory
-deathrate <- deathrate %>% mutate(hubeiRate=as.numeric(hubeiRate), notHubeiRate=as.numeric(notHubeiRate), countryRate=as.numeric(countryRate))
+deathrate<-x$dailyHistory
+deathrate <- deathrate %>% mutate(hubeiRate=as.numeric(hubei.deadRate), notHubeiRate=as.numeric(notHubei.deadRate), countryRate=as.numeric(country.deadRate))
 deathrate <- deathrate %>% extract(date,c("month","day"), regex = "^(\\d+)\\.(\\d+)$",remove = FALSE) 
 deathrate <- deathrate %>% mutate(month = as.numeric(month), day = as.numeric(day))
 deathrate <- deathrate %>% mutate(date = make_date(2020,month,day))
@@ -161,13 +161,13 @@ for(i in 1:34)
   provs <- as.character(x[,1]$name[i])
   
     if(y$data %>% filter(province==provs) %>% .$city %>% as.factor %>% levels %>% length != 1){
-p <- y$data %>% filter(province==provs,city!=provs) %>% group_by(city) %>% ggplot(color=city) + geom_line(aes(time,confirmed,color=city))+geom_point(aes(time,confirmed,color=city))+ylab(paste(provs," confirmed"))
+p <- y$data %>% filter(province==provs,city!=provs) %>% group_by(city) %>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," confirmed"))
 print(p)
 grid.newpage()
     }
   
       if(y$data %>% filter(province==provs) %>% .$city %>% as.factor %>% levels %>% length == 1){
-p <- y$data %>% filter(province==provs)%>% ggplot(color=city) + geom_line(aes(time,confirmed,color=city))+geom_point(aes(time,confirmed,color=city))+ylab(paste(provs," confirmed"))
+p <- y$data %>% filter(province==provs)%>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," confirmed"))
 print(p)
 grid.newpage()
     }

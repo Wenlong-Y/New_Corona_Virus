@@ -46,7 +46,7 @@ The last updated time (Beijing Time)is
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-25 09:12:25"
+    ## [1] "2020-02-26 10:56:58"
 
 Now we present the total number of confirmed and suspected respectively.
 
@@ -67,13 +67,7 @@ fitted with data during this period.
 ``` r
 dataDay <- dataDay %>% mutate(confandsusp = confirm + suspect)
 dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27) & date < make_date(2020,2,9)) 
-model <- lm(confandsusp ~ date, data=dataforfitting)
-dataforfitting2 <- dataDay %>% filter(date > make_date(2020,2,13)) 
-model2 <- lm(confandsusp ~ date, data=dataforfitting2)
-plot(dataDay$date, dataDay$confandsusp, xlab = "Date", ylab = "confirmed + suspected" )
-abline(model)
-abline(model2)
-mtext(paste("The number of cases (suspected + confirmed) increases", as.character(floor(model$coefficients[2])),"per day on average\n between Jan 28th and Feb 8th. with R-squared value of ",round(summary(model)$r.squared, digits=5),".\n", "After Feb. 13, the number of cases (confirmed+suspect) increases ",as.character(floor(model2$coefficients[2])), "\n with R-squred value of", round(summary(model2)$r.squared, digits=5),"."))
+dataDay %>% mutate(confandsusp = nowConfirm + suspect) %>% ggplot(aes(date,confandsusp))+geom_point()
 ```
 
 ![](Report_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->

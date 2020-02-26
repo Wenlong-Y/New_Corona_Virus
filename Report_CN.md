@@ -46,7 +46,7 @@ dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-02-23 09:30:06"
+    ## [1] "2020-02-26 10:56:58"
 
 确诊和疑似病例的数据如下：
 
@@ -63,13 +63,7 @@ dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="确诊")) +geom_point
 ``` r
 dataDay <- dataDay %>% mutate(confandsusp = confirm + suspect)
 dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27) & date < make_date(2020,2,9)) 
-model <- lm(confandsusp ~ date, data=dataforfitting)
-dataforfitting2 <- dataDay %>% filter(date >= make_date(2020,2,13)) 
-model2 <- lm(confandsusp ~ date, data=dataforfitting2)
-plot(dataDay$date, dataDay$confandsusp, ylab = "确诊+疑似总和", xlab = "" )
-abline(model)
-abline(model2)
-mtext(paste("1月28日到2月9日之间，确诊+疑似呈直线上升趋势，上升速度为每天", as.character(floor(model$coefficients[2])),"。\n R平方值为 ",round(summary(model)$r.squared, digits=5),".\n","2月13日后, 确诊+疑似病例每天增加",as.character(floor(model2$coefficients[2])), "\n R平方值为", round(summary(model2)$r.squared, digits=5),"."))
+dataDay %>% mutate(confandsusp = nowConfirm + suspect) %>% ggplot(aes(date,confandsusp))+geom_point()+ylab("现有确诊+疑似")
 ```
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
@@ -142,8 +136,8 @@ grid.table(areatotal)
 湖北和非湖北省的死亡人数和死亡率等：
 
 ``` r
-deathrate<-x$dailyDeadRateHistory
-deathrate <- deathrate %>% mutate(hubeiRate=as.numeric(hubeiRate), notHubeiRate=as.numeric(notHubeiRate), countryRate=as.numeric(countryRate))
+deathrate<-x$dailyHistory
+deathrate <- deathrate %>% mutate(hubeiRate=as.numeric(hubei.deadRate), notHubeiRate=as.numeric(notHubei.deadRate), countryRate=as.numeric(country.deadRate))
 deathrate <- deathrate %>% extract(date,c("month","day"), regex = "^(\\d+)\\.(\\d+)$",remove = FALSE) 
 deathrate <- deathrate %>% mutate(month = as.numeric(month), day = as.numeric(day))
 deathrate <- deathrate %>% mutate(date = make_date(2020,month,day))
@@ -173,13 +167,13 @@ for(i in 1:34)
   provs <- as.character(x[,1]$name[i])
   
     if(y$data %>% filter(province==provs) %>% .$city %>% as.factor %>% levels %>% length != 1){
-p <- y$data %>% filter(province==provs,city!=provs) %>% group_by(city) %>% ggplot(color=city) + geom_line(aes(time,confirmed,color=city))+geom_point(aes(time,confirmed,color=city))+ylab(paste(provs," 确诊人数"))+xlab("")
+p <- y$data %>% filter(province==provs,city!=provs) %>% group_by(city) %>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," 确诊人数"))+xlab("")
 print(p)
 grid.newpage()
     }
   
       if(y$data %>% filter(province==provs) %>% .$city %>% as.factor %>% levels %>% length == 1){
-p <- y$data %>% filter(province==provs)%>% ggplot(color=city) + geom_line(aes(time,confirmed,color=city))+geom_point(aes(time,confirmed,color=city))+ylab(paste(provs," 确诊人数"))+xlab("")
+p <- y$data %>% filter(province==provs)%>% ggplot(color=city) + geom_line(aes(time,cum_confirm,color=city))+geom_point(aes(time,cum_confirm,color=city))+ylab(paste(provs," 确诊人数"))+xlab("")
 print(p)
 grid.newpage()
     }

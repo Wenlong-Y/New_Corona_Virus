@@ -18,7 +18,7 @@ Libraries needed:
 ```{r loading libraries and data, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(lubridate)
-masCov <- read.csv("covmas.csv")
+covMas <- read.csv("covmas.csv")
 sources <- read.csv("masSources.csv")
 covMasDet <- read.csv("covmasdetail.csv")
 covMasDay <- read.csv("covmasday.csv")
@@ -26,37 +26,49 @@ covMasDay <- read.csv("covmasday.csv")
 
 Confirmed/suspected and the total of the two in Massachusetts:
 
-```{r plotting}
-masCov %>% ggplot()+geom_point(aes(date,presumptive,color="Presumptive"), shape=0,size=3)+geom_point(aes(date,confirmed,color="Confirmed"),shape=1,size=3)+geom_point(aes(date,total,color="Total"),shape=2,size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
-```
 
+```{r plotting}
+covMaslong <- gather(covMas%>% select(-X), key="key", value="value", -date)
+names(covMaslong)[2] <- "Class"
+covMaslong %>% filter(Class %in% c("presumptive","confirmed","total"))%>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
 
 The daily changes:
 ```{r plotting for daily changes}
-covMasDay %>% ggplot()+geom_point(aes(date,newPresum,color="New Presumptive"),shape=0,size=3)+geom_point(aes(date,newConfirm,color="New Confirmed"),shape=1,size=3)+geom_point(aes(date,newTotal,color="New Total"),shape=2,size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+covMasDaylong <- gather(covMasDay%>% select(-X), key="key", value="value", -date)
+names(covMasDaylong)[2] <- "Class"
+covMasDaylong %>%  ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
 
 Here's some detailed information about the people who are diagnoised positive. Here are the distribution by county:
 
 ```{r}
-covMasDet %>% ggplot()+geom_point(aes(date,Berkshire,color="Berkshire"),shape=0,size=3)+geom_point(aes(date,Essex,color="Essex"),shape=1,size=3)+geom_point(aes(date,Middlesex,color="Middlesex"),shape=2,size=3)+geom_point(aes(date,Norfolk,color="Norfolk"),shape=3,size=3)+geom_point(aes(date,Suffolk,color="Suffolk"),shape=4,size=3)+geom_point(aes(date,Worcester,color="Worcester"),shape=5,size=3)+geom_point(aes(date,CntUnknown,color="County Unknown"),shape=6,size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+covMasDetCntlong <- gather(covMasDet%>% select(-X) %>% select(date,Berkshire,Essex,Middlesex,Norfolk,Suffolk,Worcester,CntUnknown), key="key", value="value", -date)
+names(covMasDetCntlong)[2] <- "Class"
+covMasDetCntlong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
 
 By gender:
 
 ```{r}
-covMasDet %>% ggplot()+geom_point(aes(date,Female,color="Female"),shape=0,size=3)+geom_point(aes(date,Male,color="Male"),shape=1,size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+covMasDetSexlong <- gather(covMasDet%>% select(-X) %>% select(date,Male,Female), key="key", value="value", -date)
+names(covMasDetSexlong)[2] <- "Class"
+covMasDetSexlong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
 
-By reason of the disease:
+By reason of the disease (BerkMedCen means Berkshire Medical Center related cases):
 
 ```{r}
-covMasDet %>% ggplot()+geom_point(aes(date,Biogen,color="Biogen"),shape=0,size=3)+geom_point(aes(date,Travel,color="Travel"),shape=1,size=3)+geom_point(aes(date,BerkMedCen,color="BerkMedCen"),shape=2,size=3)+geom_point(aes(date,UnkownReason,color="Unkown Reasons"),shape=3,size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+covMasDetWhylong <- gather(covMasDet%>% select(-X) %>% select(date,Biogen,Travel,BerkMedCen,UnkownReason), key="key", value="value", -date)
+names(covMasDetWhylong)[2] <- "Class"
+covMasDetWhylong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
 
 Whether the patient is treated in hospital:
 
 
 ```{r}
-covMasDet %>% ggplot()+geom_point(aes(date,hospitalized,color="Hospitalized"),shape=0,size=3)+geom_point(aes(date,notHospitalized,color="Not Hospitalized"),shape=1,size=3)+geom_point(aes(date,Hosunknown,color="Unknown"),shape=2,size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+covMasDetHoslong <- gather(covMasDet%>% select(-X) %>% select(date,hospitalized,notHospitalized,Hosunknown), key="key", value="value", -date)
+names(covMasDetHoslong)[2] <- "Class"
+covMasDetHoslong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```

@@ -46,7 +46,7 @@ The last updated time (Beijing Time)is
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-03-02 09:58:05"
+    ## [1] "2020-03-13 07:39:49"
 
 Now we present the total number of confirmed and suspected respectively.
 

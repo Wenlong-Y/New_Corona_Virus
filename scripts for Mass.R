@@ -29,7 +29,7 @@ library(lubridate)
 
 #Daily task
 #covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,3,13)),presumptive=105, confirmed=18, total=123, quarantined =719, Quarfinished = 470, quarantNow=249))
-#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,14)),Barnstable=1, Bristol=1, Essex=5,Berkshire=9, Middlesex=65, Norfolk=28, Suffolk=27, Worcester=2,CntUnknown=0,Female=64, Male=74, Biogen=104, Travel=5, BerkMedCen=8, UnkownReason=21, hospitalized= 11, notHospitalized=105,Hosunknown=22))
+#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,14)),Barnstable=1, Bristol=1, Essex=5,Berkshire=9, Hampden=1, Middlesex=65, Norfolk=28, Suffolk=27, Worcester=2,CntUnknown=0,Female=64, Male=74, Biogen=104, Travel=5, BerkMedCen=8, UnkownReason=21, hospitalized= 11, notHospitalized=105,Hosunknown=22))
 #covMasDay <- covMas %>% arrange(date) %>% mutate(newConfirm=c(0,diff(confirmed)),newPresum=c(0,diff(presumptive)),newTotal=c(0,diff(total))) %>% select(date,newPresum,newConfirm,newTotal)
 
 

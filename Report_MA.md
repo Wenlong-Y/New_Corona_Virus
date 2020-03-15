@@ -40,7 +40,7 @@ Here’s some detailed information about the people who are diagnoised
 positive. Here are the distribution by county:
 
 ``` r
-covMasDetCntlong <- gather(covMasDet%>% select(-X) %>% select(date,Barnstable,Berkshire,Bristol,Essex,Middlesex,Norfolk,Suffolk,Worcester,CntUnknown), key="key", value="value", -date)
+covMasDetCntlong <- gather(covMasDet%>% select(-X) %>% select(date,Barnstable,Berkshire,Bristol,Essex,Hampden,Middlesex,Norfolk,Suffolk,Worcester,CntUnknown), key="key", value="value", -date)
 names(covMasDetCntlong)[2] <- "County"
 covMasDetCntlong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=County))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```

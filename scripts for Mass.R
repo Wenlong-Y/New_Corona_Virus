@@ -1,5 +1,6 @@
 library(tidyverse)
-rary(textreadr)
+library(textreadr)
+library(lubridate)
 temp_file <- tempfile()
 url <- "https://www.mass.gov/doc/covid-19-cases-in-massachusetts-march-10-2020/download"
 txt <- read_pdf(url)
@@ -21,20 +22,15 @@ library(lubridate)
 
 #add sources
 
-#sources <- rbind(sources,data.frame(date=make_date(2020,3,8),url="https://www.wgbh.org/news/local-news/2020/03/08/there-are-now-28-presumed-cases-of-covid-19-in-massachusetts"))
+#sources <- rbind(sources %>% select(-X),data.frame(date=as.character(make_date(2020,3,14)),url="https://www.mass.gov/doc/covid-19-cases-in-massachusetts-as-of-march-14-2020-accessible/download"))
 
 #add daily data
 #covMas <- rbind(covMas,data.frame(date=make_date(2020,3,6),presumptive=7, confirmed=1, total=8, quarantined =, Quarfinished =, quarantNow= ))
 
 #Daily task
 #covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,3,13)),presumptive=105, confirmed=18, total=123, quarantined =719, Quarfinished = 470, quarantNow=249))
-#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,13)),Essex=2, Berkshire=9, Middlesex=60, Norfolk=24, Suffolk=26, Worcester=2,Female=54, Male=69, Biogen=94, Travel=5, BerkMedCen=8, CntUnknown=0, UnkownReason=16, hospitalized= 10, notHospitalized=101,Hosunknown=12))
-
-
-#add detail
-#covMasDay <-rbind(covMasDay,data.frame(date=make_date(2020,3,3),newQuar=covMas$quarantined[2]-covMas$quarantined[1],newConfirm=covMas$confirmed[2]-covMas))
-#covMasDet <- rbind(covMasDet,data.frame(date=make_date(2020,3,10),Berkshire=5, Middlesex=15, Norfolk=10, Suffolk=10, Worcester=1,Female=18, Male=23, Biogen=32, Travel=4, UnkownReason=5, hospitalized= 4, notHospitalized=37))
-covMasDay <- covMas %>% arrange(date) %>% mutate(newConfirm=c(0,diff(confirmed)),newPresum=c(0,diff(presumptive)),newTotal=c(0,diff(total))) %>% select(date,newPresum,newConfirm,newTotal)
+#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,14)),Barnstable=1, Bristol=1, Essex=5,Berkshire=9, Middlesex=65, Norfolk=28, Suffolk=27, Worcester=2,CntUnknown=0,Female=64, Male=74, Biogen=104, Travel=5, BerkMedCen=8, UnkownReason=21, hospitalized= 11, notHospitalized=105,Hosunknown=22))
+#covMasDay <- covMas %>% arrange(date) %>% mutate(newConfirm=c(0,diff(confirmed)),newPresum=c(0,diff(presumptive)),newTotal=c(0,diff(total))) %>% select(date,newPresum,newConfirm,newTotal)
 
 
 #write.csv(covMas,"covmas.csv")

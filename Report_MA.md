@@ -40,16 +40,10 @@ Here’s some detailed information about the people who are diagnoised
 positive. Here are the distribution by county:
 
 ``` r
-covMasDetCntlong <- gather(covMasDet%>% select(-X) %>% select(date,Berkshire,Essex,Middlesex,Norfolk,Suffolk,Worcester,CntUnknown), key="key", value="value", -date)
-names(covMasDetCntlong)[2] <- "Class"
-covMasDetCntlong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+covMasDetCntlong <- gather(covMasDet%>% select(-X) %>% select(date,Barnstable,Berkshire,Bristol,Essex,Middlesex,Norfolk,Suffolk,Worcester,CntUnknown), key="key", value="value", -date)
+names(covMasDetCntlong)[2] <- "County"
+covMasDetCntlong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=County))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
-
-    ## Warning: The shape palette can deal with a maximum of 6 discrete values because
-    ## more than 6 becomes difficult to discriminate; you have 7. Consider
-    ## specifying shapes manually if you must have them.
-
-    ## Warning: Removed 5 rows containing missing values (geom_point).
 
 ![](Report_MA_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 

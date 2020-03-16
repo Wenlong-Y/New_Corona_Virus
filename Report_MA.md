@@ -24,6 +24,10 @@ names(covMaslong)[2] <- "Class"
 covMaslong %>% filter(Class %in% c("presumptive","confirmed","total"))%>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
 
+    ## Warning: Removed 2 row(s) containing missing values (geom_path).
+
+    ## Warning: Removed 2 rows containing missing values (geom_point).
+
 ![](Report_MA_files/figure-gfm/plotting-1.png)<!-- -->
 
 The daily changes:
@@ -33,6 +37,10 @@ covMasDaylong <- gather(covMasDay%>% select(-X), key="key", value="value", -date
 names(covMasDaylong)[2] <- "Class"
 covMasDaylong %>%  ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
+
+    ## Warning: Removed 2 row(s) containing missing values (geom_path).
+
+    ## Warning: Removed 2 rows containing missing values (geom_point).
 
 ![](Report_MA_files/figure-gfm/plotting%20for%20daily%20changes-1.png)<!-- -->
 
@@ -61,7 +69,7 @@ By reason of the disease (BerkMedCen means Berkshire Medical Center
 related cases):
 
 ``` r
-covMasDetWhylong <- gather(covMasDet%>% select(-X) %>% select(date,Biogen,Travel,BerkMedCen,UnkownReason), key="key", value="value", -date)
+covMasDetWhylong <- gather(covMasDet%>% select(-X) %>% select(date,Biogen,Travel,LocalTransmission,UnkownReason), key="key", value="value", -date)
 names(covMasDetWhylong)[2] <- "Class"
 covMasDetWhylong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```

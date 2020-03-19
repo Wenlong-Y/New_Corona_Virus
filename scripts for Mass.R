@@ -1,6 +1,12 @@
 library(tidyverse)
 library(textreadr)
 library(lubridate)
+
+covMas <- read.csv("covmas.csv")
+sources <- read.csv("masSources.csv")
+covMasDet <- read.csv("covmasdetail.csv")
+covMasDay <- read.csv("covmasday.csv")
+
 temp_file <- tempfile()
 url <- "https://www.mass.gov/doc/covid-19-cases-in-massachusetts-march-10-2020/download"
 txt <- read_pdf(url)
@@ -28,8 +34,8 @@ library(lubridate)
 #covMas <- rbind(covMas,data.frame(date=make_date(2020,3,6),presumptive=7, confirmed=1, total=8, quarantined =, Quarfinished =, quarantNow= ))
 
 #Daily task
-#covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,3,13)),presumptive=105, confirmed=18, total=123, quarantined =719, Quarfinished = 470, quarantNow=249))
-#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,14)),Barnstable=1, Bristol=1, Essex=5,Berkshire=9, Hampden=1, Middlesex=65, Norfolk=28, Plymouth=1, Suffolk=27, Worcester=2,CntUnknown=0,Female=64, Male=74, Biogen=104, Travel=5, BerkMedCen=8, UnkownReason=21, hospitalized= 11, notHospitalized=105,Hosunknown=22))
+#covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,3,13)),presumptive=NA, confirmed=NA, total=218, quarantined =1083, Quarfinished = 638, quarantNow=445))
+#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,18)),Barnstable=2, Bristol=5, Essex=14,Berkshire=17, Hampden=2, Middlesex=100, Norfolk=45, Plymouth=6, Suffolk=51, Worcester=10,CntUnknown=4,Female=119, Male=137, Biogen=97, Travel=26, LocalTransmission=38, UnkownReason=95, hospitalized= 27, notHospitalized=151,Hosunknown=78))
 #covMasDay <- covMas %>% arrange(date) %>% mutate(newConfirm=c(0,diff(confirmed)),newPresum=c(0,diff(presumptive)),newTotal=c(0,diff(total))) %>% select(date,newPresum,newConfirm,newTotal)
 
 

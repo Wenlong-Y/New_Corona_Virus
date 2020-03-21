@@ -27,14 +27,14 @@ covMasDay <- read.csv("covmasday.csv")
 Confirmed/suspected and the total of the two in Massachusetts:
 
 
-```{r plotting}
+```{r plotting, warning=FALSE}
 covMaslong <- gather(covMas%>% select(-X), key="key", value="value", -date)
 names(covMaslong)[2] <- "Class"
 covMaslong %>% filter(Class %in% c("presumptive","confirmed","total", "death"))%>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
 
 The daily changes:
-```{r plotting for daily changes}
+```{r plotting for daily changes, warning=FALSE}
 covMasDaylong <- gather(covMasDay%>% select(-X), key="key", value="value", -date)
 names(covMasDaylong)[2] <- "Class"
 covMasDaylong %>%  ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))

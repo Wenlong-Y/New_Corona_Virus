@@ -24,10 +24,6 @@ names(covMaslong)[2] <- "Class"
 covMaslong %>% filter(Class %in% c("presumptive","confirmed","total", "death"))%>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
 
-    ## Warning: Removed 10 row(s) containing missing values (geom_path).
-
-    ## Warning: Removed 10 rows containing missing values (geom_point).
-
 ![](Report_MA_files/figure-gfm/plotting-1.png)<!-- -->
 
 The daily changes:
@@ -37,10 +33,6 @@ covMasDaylong <- gather(covMasDay%>% select(-X), key="key", value="value", -date
 names(covMasDaylong)[2] <- "Class"
 covMasDaylong %>%  ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
-
-    ## Warning: Removed 10 row(s) containing missing values (geom_path).
-
-    ## Warning: Removed 10 rows containing missing values (geom_point).
 
 ![](Report_MA_files/figure-gfm/plotting%20for%20daily%20changes-1.png)<!-- -->
 

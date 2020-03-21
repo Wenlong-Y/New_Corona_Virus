@@ -16,7 +16,8 @@ covMasDet <- read.csv("covmasdetail.csv")
 covMasDay <- read.csv("covmasday.csv")
 ```
 
-Confirmed/suspected and the total of the two in Massachusetts:
+Number of confirmed, suspected, total (confirmed+suspected) and death in
+Massachusetts:
 
 ``` r
 covMaslong <- gather(covMas%>% select(-X), key="key", value="value", -date)

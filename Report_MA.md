@@ -41,7 +41,7 @@ Here’s some detailed information about the people who are diagnoised
 positive. Here are the distribution by county:
 
 ``` r
-covMasDetCntlong <- gather(covMasDet%>% select(-X) %>% select(date,Barnstable,Berkshire,Bristol,Franklin,Essex,Hampden,Hampshire,Middlesex,Norfolk,Plymouth,Suffolk,Worcester,CntUnknown), key="key", value="value", -date)
+covMasDetCntlong <- gather(covMasDet%>% select(-X) %>% select(date,Barnstable,Berkshire,Bristol,Franklin,Essex,Hampden,Hampshire,Middlesex,Norfolk,DukesNantucket,Plymouth,Suffolk,Worcester,CntUnknown), key="key", value="value", -date)
 names(covMasDetCntlong)[2] <- "County"
 covMasDetCntlong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=County))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
@@ -58,8 +58,7 @@ covMasDetSexlong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shap
 
 ![](Report_MA_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
-By reason of the disease (BerkMedCen means Berkshire Medical Center
-related cases):
+By reason of the disease:
 
 ``` r
 covMasDetWhylong <- gather(covMasDet%>% select(-X) %>% select(date,Biogen,Travel,LocalTransmission,UnkownReason), key="key", value="value", -date)
@@ -76,5 +75,9 @@ covMasDetHoslong <- gather(covMasDet%>% select(-X) %>% select(date,hospitalized,
 names(covMasDetHoslong)[2] <- "Class"
 covMasDetHoslong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
+
+    ## Warning: Removed 1 row(s) containing missing values (geom_path).
+
+    ## Warning: Removed 1 rows containing missing values (geom_point).
 
 ![](Report_MA_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->

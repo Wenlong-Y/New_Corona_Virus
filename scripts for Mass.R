@@ -34,8 +34,8 @@ library(lubridate)
 #covMas <- rbind(covMas,data.frame(date=make_date(2020,3,6),presumptive=7, confirmed=1, total=8, quarantined =, Quarfinished =, quarantNow= ))
 
 #Daily task
-#covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,3,13)),presumptive=NA, confirmed=NA, total=218, quarantined =1083, Quarfinished = 638, quarantNow=445))
-#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,18)),Barnstable=2, Bristol=5, Essex=14,Berkshire=17, Hampden=2, Middlesex=100, Norfolk=45, Plymouth=6, Suffolk=51, Worcester=10,CntUnknown=4,Female=119, Male=137, Biogen=97, Travel=26, LocalTransmission=38, UnkownReason=95, hospitalized= 27, notHospitalized=151,Hosunknown=78))
+#covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,3,13)),presumptive=NA, confirmed=NA, total=218, death, quarantined =1083, Quarfinished = 638, quarantNow=445))
+#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,21)),Barnstable=11, Bristol=14, Essex=41,Berkshire=21, Franklin=2, Hampden=9, Hampshire=2, Middlesex=177, Norfolk=69, Plymouth=20, Suffolk=108, Worcester=24,CntUnknown=26,Female=249, Male=275, Biogen=97, Travel=53, LocalTransmission=69, UnkownReason=306, hospitalized= 61, notHospitalized=215,Hosunknown=NA))
 #covMasDay <- covMas %>% arrange(date) %>% mutate(newConfirm=c(0,diff(confirmed)),newPresum=c(0,diff(presumptive)),newTotal=c(0,diff(total))) %>% select(date,newPresum,newConfirm,newTotal)
 
 

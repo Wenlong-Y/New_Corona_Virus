@@ -7,7 +7,7 @@
 #git push -u origin master
 
 #git add -A && git commit -m "Your Message"
-
+#test
 #Sys.setenv("TAR" = "internal")
 #remotes::install_github("GuangchuangYu/nCov2019")
 library(nCov2019)
@@ -15,8 +15,6 @@ library(utf8)
 library(tidyverse)
 library(lubridate)
 x <- get_nCov2019()
-
-dataDay <- x$chinaDayList %>% mutate(confirm = as.numeric(confirm), suspect = as.numeric(suspect), dead = as.numeric(dead), heal = as.numeric(heal), deathoverconfirm = dead/confirm)
 dataDay <- dataDay %>% extract(date,c("month","day"), regex = "^(\\d+)\\.(\\d+)$",remove = FALSE) 
 dataDay <- dataDay %>% mutate(month = as.numeric(month), day = as.numeric(day))
 dataDay <- dataDay %>% mutate(date = make_date(2020,month,day))

@@ -76,8 +76,4 @@ names(covMasDetHoslong)[2] <- "Class"
 covMasDetHoslong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
 
-    ## Warning: Removed 1 row(s) containing missing values (geom_path).
-
-    ## Warning: Removed 1 rows containing missing values (geom_point).
-
 ![](Report_MA_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->

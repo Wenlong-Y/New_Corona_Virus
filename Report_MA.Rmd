@@ -22,6 +22,7 @@ covMas <- read.csv("covmas.csv")
 sources <- read.csv("masSources.csv")
 covMasDet <- read.csv("covmasdetail.csv")
 covMasDay <- read.csv("covmasday.csv")
+covMasAge <- read.csv("covmasAge.csv")
 ```
 
 Number of confirmed, suspected, total (confirmed+suspected) and death in Massachusetts:
@@ -51,7 +52,7 @@ covMasDetCntlong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=County))+g
 By gender:
 
 ```{r, echo=FALSE}
-covMasDetSexlong <- gather(covMasDet%>% select(-X) %>% select(date,Male,Female), key="key", value="value", -date)
+covMasDetSexlong <- gather(covMasDet%>% select(-X) %>% select(date,Male,Female,sexUnknown), key="key", value="value", -date)
 names(covMasDetSexlong)[2] <- "Class"
 covMasDetSexlong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
@@ -71,4 +72,13 @@ Whether the patient is treated in hospital:
 covMasDetHoslong <- gather(covMasDet%>% select(-X) %>% select(date,hospitalized,notHospitalized,Hosunknown), key="key", value="value", -date)
 names(covMasDetHoslong)[2] <- "Class"
 covMasDetHoslong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+
+By age:
+
+```{r age, warning=FALSE, echo=FALSE}
+covMasAgeLong <- gather(covMasAge%>% select(-X),key="key", value="value", -date)
+
+names(covMasAgeLong)[2] <- "Class"
+covMasAgeLong %>% filter(Class %in% c("below19s","Age20s","Age30s", "Age40s", "Age50s", "Age60s", "above70", "ageUnknown"))%>% ggplot(aes(as.Date(date, "%Y-%m-%d"), value,color=Class))+geom_line(size=1)+geom_point(size=3)+xlab("")+ ylab("Number of people infected CovID-19")
 ```

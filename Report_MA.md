@@ -31,3 +31,7 @@ By reason of the disease:
 Whether the patient is treated in hospital:
 
 ![](Report_MA_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+By age:
+
+![](Report_MA_files/figure-gfm/age-1.png)<!-- -->

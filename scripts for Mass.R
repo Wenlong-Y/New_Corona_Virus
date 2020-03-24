@@ -35,7 +35,7 @@ library(lubridate)
 
 #Daily task
 #covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,3,22)),presumptive=NA, confirmed=NA, total=646, death=5, quarantined =2054, Quarfinished = 886, quarantNow=1168))
-#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,21)),Barnstable=11, Bristol=14, Essex=41,Berkshire=21, Franklin=2, Hampden=9, Hampshire=2, Middlesex=177, Norfolk=69, Plymouth=20, Suffolk=108, Worcester=24,CntUnknown=26,Female=249, Male=275, Biogen=97, Travel=53, LocalTransmission=69, UnkownReason=306, hospitalized= 61, notHospitalized=215,Hosunknown=NA))
+#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,23)),Barnstable=30, Berkshire=26, Bristol=25, DukesNantucket=1, Essex=73, Franklin=2, Hampden=15, Hampshire=6, Middlesex=232, Norfolk=82, Plymouth=32, Suffolk=154, Worcester=42,CntUnknown=57,Female=378, Male=399, Biogen=99, Travel=75, LocalTransmission=104, UnkownReason=499, hospitalized= 79, notHospitalized=286,Hosunknown=412))
 #covMasDay <- covMas %>% arrange(date) %>% mutate(newConfirm=c(0,diff(confirmed)),newPresum=c(0,diff(presumptive)),newTotal=c(0,diff(total)), newDeath=c(0,diff(death))) %>% select(date,newPresum,newConfirm,newTotal,newDeath)
 
 

@@ -6,6 +6,7 @@ covMas <- read.csv("covmas.csv")
 sources <- read.csv("masSources.csv")
 covMasDet <- read.csv("covmasdetail.csv")
 covMasDay <- read.csv("covmasday.csv")
+covMasAge <- read.csv("covmasAge.csv")
 
 temp_file <- tempfile()
 url <- "https://www.mass.gov/doc/covid-19-cases-in-massachusetts-march-10-2020/download"
@@ -35,11 +36,12 @@ library(lubridate)
 
 #Daily task
 #covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,3,22)),presumptive=NA, confirmed=NA, total=646, death=5, quarantined =2054, Quarfinished = 886, quarantNow=1168))
-#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,23)),Barnstable=30, Berkshire=26, Bristol=25, DukesNantucket=1, Essex=73, Franklin=2, Hampden=15, Hampshire=6, Middlesex=232, Norfolk=82, Plymouth=32, Suffolk=154, Worcester=42,CntUnknown=57,Female=378, Male=399, Biogen=99, Travel=75, LocalTransmission=104, UnkownReason=499, hospitalized= 79, notHospitalized=286,Hosunknown=412))
+#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,25)),Barnstable=51, Berkshire=71, Bristol=67, DukesNantucket=3, Essex=177, Franklin=14, Hampden=45, Hampshire=11, Middlesex=446, Norfolk=222, Plymouth=101, Suffolk=342, Worcester=129, CntUnknown=159,Female=903, Male=933, sexUnknown=2, Biogen=99, Travel=92, LocalTransmission=146, UnkownReason=1501, hospitalized= 103, notHospitalized=350,Hosunknown=1385))
 #covMasDay <- covMas %>% arrange(date) %>% mutate(newConfirm=c(0,diff(confirmed)),newPresum=c(0,diff(presumptive)),newTotal=c(0,diff(total)), newDeath=c(0,diff(death))) %>% select(date,newPresum,newConfirm,newTotal,newDeath)
-
+#covMasAge <- rbind(covMasAge %>% select(-X), data.frame(date=as.character(make_date(2020,3,25)), below19=41, Age20s=326, Age30s=322, Age40s=313, Age50s=330, Age60s=249, above70=255, ageUnknown=2)  )
 
 #write.csv(covMas,"covmas.csv")
 #write.csv(sources,"masSources.csv")
 #write.csv(covMasDet,"covmasdetail.csv")
 #write.csv(covMasDay,"covmasday.csv")
+#write.csv(covMasAge,"covmasAge.csv")

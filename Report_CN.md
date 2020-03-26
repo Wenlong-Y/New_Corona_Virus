@@ -48,7 +48,7 @@ dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-03-26 07:40:46"
+    ## [1] "2020-03-26 22:54:49"
 
 确诊和疑似病例的数据如下：
 

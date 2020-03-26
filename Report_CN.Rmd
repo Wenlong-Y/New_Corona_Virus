@@ -25,6 +25,8 @@ Sys.setlocale(category = "LC_ALL", locale = "chs")
 library(nCov2019)
 library(tidyverse)
 library(lubridate)
+library(grid)
+library(gridExtra)
 x <- get_nCov2019()
 ```
 
@@ -100,19 +102,6 @@ dataAdd %>% ggplot(aes(date,confirm+suspect))+geom_point()+ylab("人数")+xlab("
 
 ```{r}
 dataAdd %>% ggplot() + geom_point(aes(date,dead,colour="死亡")) +geom_point(aes(date,heal,color="康复")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("black","red"))+xlab("")
-```
-
-
-## 各个国家的病例统计
-
-各个国家的确诊总数：
-```{r, message=FALSE, fig.height=8}
-library(grid)
-library(gridExtra)
-areatotal <- x$are$total %>% select(confirm, suspect, dead, heal,deadRate,healRate)
-areatotal <- cbind(x$areaTree$name,areatotal) %>% head(25)
-names(areatotal)[1] <- "国家"
-grid.table(areatotal)
 ```
 
 ## 中国各省的感染情况

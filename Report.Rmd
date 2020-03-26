@@ -25,6 +25,9 @@ library(nCov2019)
 library(utf8)
 library(tidyverse)
 library(lubridate)
+library(grid)
+library(gridExtra)
+
 x <- get_nCov2019(lang = "en")
 ```
 
@@ -104,21 +107,6 @@ Here are daily numbers of death and recovery:
 dataAdd %>% ggplot() + geom_point(aes(date,dead,colour="Dead")) +geom_point(aes(date,heal,color="Healed")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("black","red"))
 ```
 
-
-## Cases by country
-
-We just look at the total number of cases for countries:
-```{r, message=FALSE, fig.height=8}
-library(grid)
-library(gridExtra)
-areatotal <- x$areaTree$total %>% select(confirm, suspect, dead, heal,deadRate,healRate)
-#x$areaTree$name[2] <- "Dimaond ship"
-#x$areaTree$name[4] <- "Japan homeland"
-#x$areaTree$name[10] <- "Iran"
-areatotal <- (cbind(x$areaTree$name,areatotal) %>% head(25))
-names(areatotal)[1] <- "Country"  
-grid.table(areatotal)
-```
 
 ## Cases by Chinese provinces
 

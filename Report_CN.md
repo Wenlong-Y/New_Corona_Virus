@@ -23,6 +23,8 @@ Sys.setlocale(category = "LC_ALL", locale = "chs")
 library(nCov2019)
 library(tidyverse)
 library(lubridate)
+library(grid)
+library(gridExtra)
 x <- get_nCov2019()
 ```
 
@@ -46,7 +48,7 @@ dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-03-23 06:27:35"
+    ## [1] "2020-03-26 07:40:46"
 
 确诊和疑似病例的数据如下：
 
@@ -116,21 +118,6 @@ dataAdd %>% ggplot() + geom_point(aes(date,dead,colour="死亡")) +geom_point(ae
 
 ![](Report_CN_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
-## 各个国家的病例统计
-
-各个国家的确诊总数：
-
-``` r
-library(grid)
-library(gridExtra)
-areatotal <- x$are$total %>% select(confirm, suspect, dead, heal,deadRate,healRate)
-areatotal <- cbind(x$areaTree$name,areatotal) %>% head(25)
-names(areatotal)[1] <- "国家"
-grid.table(areatotal)
-```
-
-![](Report_CN_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
-
 ## 中国各省的感染情况
 
 湖北和非湖北省的死亡人数和死亡率等：
@@ -144,7 +131,7 @@ deathrate <- deathrate %>% mutate(date = make_date(2020,month,day))
 deathrate %>% ggplot()+geom_point(aes(date,hubeiRate,color="湖北死亡率"))+geom_point(aes(date,notHubeiRate,color="非湖北死亡率"))+geom_point(aes(date,countryRate,color="中国总死亡率"))+ ylab("百分比(%)")+xlab("")
 ```
 
-![](Report_CN_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](Report_CN_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 各省具体情况（其中表格的数据是最新数据，而历史数据，更新并不及时）：
 
@@ -181,4 +168,4 @@ grid.newpage()
 }
 ```
 
-![](Report_CN_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-2.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-3.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-4.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-5.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-6.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-7.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-8.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-9.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-10.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-11.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-12.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-13.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-14.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-15.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-16.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-17.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-18.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-19.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-20.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-21.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-22.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-23.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-24.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-25.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-26.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-27.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-28.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-29.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-30.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-31.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-32.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-33.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-34.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-35.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-36.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-37.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-38.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-39.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-40.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-41.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-42.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-43.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-44.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-45.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-46.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-47.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-48.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-49.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-50.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-51.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-52.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-53.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-54.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-55.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-56.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-57.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-58.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-59.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-60.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-61.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-62.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-63.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-64.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-65.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-66.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-67.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-14-68.png)<!-- -->
+![](Report_CN_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-2.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-3.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-4.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-5.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-6.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-7.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-8.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-9.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-10.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-11.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-12.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-13.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-14.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-15.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-16.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-17.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-18.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-19.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-20.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-21.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-22.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-23.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-24.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-25.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-26.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-27.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-28.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-29.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-30.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-31.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-32.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-33.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-34.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-35.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-36.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-37.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-38.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-39.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-40.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-41.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-42.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-43.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-44.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-45.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-46.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-47.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-48.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-49.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-50.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-51.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-52.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-53.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-54.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-55.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-56.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-57.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-58.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-59.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-60.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-61.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-62.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-63.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-64.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-65.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-66.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-67.png)<!-- -->![](Report_CN_files/figure-gfm/unnamed-chunk-13-68.png)<!-- -->

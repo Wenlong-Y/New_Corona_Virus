@@ -30,6 +30,9 @@ library(lubridate)
 
 covUS <-read.csv("https://covidtracking.com/api/us/daily.csv")
 covUS <- covUS %>% mutate(date = as.Date(as.character(date),"%Y%m%d"), US_confirmed = positive) %>% select(date, US_confirmed)
+covUSlong <- gather(covUS, key ="key", value="value", -date)
+covMalong <- gather(covMas %>% mutate(MA_confirmed = total) %>% select(-X) %>% select(date,MA_confirmed), key="key", value="value", -date)
+covMAvsUS <- rbind(covUSlong, covMalong)
 #add sources
 
 #sources <- rbind(sources %>% select(-X),data.frame(date=as.character(make_date(2020,3,14)),url="https://www.mass.gov/doc/covid-19-cases-in-massachusetts-as-of-march-14-2020-accessible/download"))

@@ -3,7 +3,7 @@ title: "CoronaVirus in MASSACHUSETTS"
 author: "WY"
 date: "3/12/2020"
 output:
-  github_document:
+  html_document:
     df_print: paged
 ---
 
@@ -14,10 +14,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The data was obtained from online sources
 
-Libraries needed:
+Here are the total number of confirmed cases and death in Massatuessas and US:
 ```{r loading libraries and data, message=FALSE, warning=FALSE, echo=FALSE}
 library(tidyverse)
 library(lubridate)
+library(plotly)
 covMas <- read.csv("covmas.csv")
 sources <- read.csv("masSources.csv")
 covMasDet <- read.csv("covmasdetail.csv")
@@ -29,64 +30,69 @@ Number of confirmed, suspected, total (confirmed+suspected) and death in Massach
 
 
 ```{r plotting, warning=FALSE, echo=FALSE， message=FALSE}
-covMaslong <- gather(covMas%>% select(-X), key="key", value="value", -date)
+covMaslong <- gather(covMas %>% mutate(date=as.Date(date, "%Y-%m-%d")) %>% select(-X), key="key", value="value", -date)
 names(covMaslong)[2] <- "Class"
-p1 <- covMaslong %>% filter(Class %in% c("presumptive","confirmed","total", "death"))%>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+p1 <- covMaslong %>% filter(Class %in% c("presumptive","confirmed","total", "death"))%>% ggplot(aes(date,value,color=Class,shape=Class))+geom_line(size=0.5)+geom_point(size=1)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
 covUS <-read.csv("https://covidtracking.com/api/us/daily.csv")
 covUS <- covUS %>% mutate(date = as.Date(as.character(date),"%Y%m%d"), US_confirmed = positive, US_deaths = death) %>% select(date, US_confirmed, US_deaths)
 covUSlong <- gather(covUS, key="key", value="value", -date)
 names(covUSlong)[2] <- "Class"
-p2 <- covUSlong %>% filter(Class %in% c("US_confirmed","US_deaths"))%>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
-library(cowplot)
-
-plot_grid(p1, p2, ncol = 1, align="v")
+p2 <- covUSlong %>% filter(Class %in% c("US_confirmed","US_deaths"))%>% ggplot(aes(date,value,color=Class,shape=Class))+geom_line(size=.5)+geom_point(size=1)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+ggplotly(p1)
+ggplotly(p2)
 ```
 
 The daily changes:
 ```{r plotting for daily changes, warning=FALSE, echo=FALSE}
-covMasDaylong <- gather(covMasDay%>% select(-X), key="key", value="value", -date)
+covMasDaylong <- gather(covMasDay %>% mutate(date=as.Date(date, "%Y-%m-%d")) %>% select(-X), key="key", value="value", -date)
 names(covMasDaylong)[2] <- "Class"
-covMasDaylong %>%  ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+p <- covMasDaylong %>%  ggplot(aes(date,value,color=Class,shape=Class))+geom_line(size=.5)+geom_point(size=1)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+ggplotly(p)
 ```
 
 Here's some detailed information about the people who are diagnoised positive. Here are the distribution by county:
 
 ```{r, echo=FALSE}
-covMasDetCntlong <- gather(covMasDet%>% select(-X) %>% select(date,Barnstable,Berkshire,Bristol,Franklin,Essex,Hampden,Hampshire,Middlesex,Norfolk,DukesNantucket,Plymouth,Suffolk,Worcester,CntUnknown), key="key", value="value", -date)
+covMasDetCntlong <- gather(covMasDet %>% mutate(date=as.Date(date, "%Y-%m-%d")) %>% select(-X) %>% select(date,Barnstable,Berkshire,Bristol,Franklin,Essex,Hampden,Hampshire,Middlesex,Norfolk,DukesNantucket,Plymouth,Suffolk,Worcester,CntUnknown), key="key", value="value", -date)
 names(covMasDetCntlong)[2] <- "County"
-covMasDetCntlong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=County))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+p <- covMasDetCntlong %>% ggplot(aes(date, value, color=County))+geom_line(size=.5)+geom_point(size=1)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+ggplotly(p)
 ```
 
 By gender:
 
 ```{r, echo=FALSE}
-covMasDetSexlong <- gather(covMasDet%>% select(-X) %>% select(date,Male,Female,sexUnknown), key="key", value="value", -date)
+covMasDetSexlong <- gather(covMasDet %>% mutate(date=as.Date(date, "%Y-%m-%d")) %>% select(-X) %>% select(date,Male,Female,sexUnknown), key="key", value="value", -date)
 names(covMasDetSexlong)[2] <- "Class"
-covMasDetSexlong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+p <- covMasDetSexlong %>% ggplot(aes(date, value, color=Class, shape = Class)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+ggplotly(p)
 ```
 
-By reason of the disease:
+By how people were infected:
 
 ```{r, echo=FALSE}
-covMasDetWhylong <- gather(covMasDet%>% select(-X) %>% select(date,Biogen,Travel,LocalTransmission,UnkownReason), key="key", value="value", -date)
+covMasDetWhylong <- gather(covMasDet %>% mutate(date=as.Date(date, "%Y-%m-%d")) %>% select(-X) %>% select(date,Biogen,Travel,LocalTransmission,UnkownReason), key="key", value="value", -date)
 names(covMasDetWhylong)[2] <- "Class"
-covMasDetWhylong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+p <- covMasDetWhylong %>% ggplot(aes(date, value, color = Class, shape = Class)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+ggplotly(p)
 ```
 
 Whether the patient is treated in hospital:
 
 
 ```{r, echo=FALSE}
-covMasDetHoslong <- gather(covMasDet%>% select(-X) %>% select(date,hospitalized,notHospitalized,Hosunknown), key="key", value="value", -date)
+covMasDetHoslong <- gather(covMasDet %>% mutate(date=as.Date(date, "%Y-%m-%d")) %>% select(-X) %>% select(date,hospitalized,notHospitalized,Hosunknown), key="key", value="value", -date)
 names(covMasDetHoslong)[2] <- "Class"
-covMasDetHoslong %>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+p <- covMasDetHoslong %>% ggplot(aes(date, value, color = Class, shape = Class)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+ggplotly(p)
 ```
 
 By age:
 
 ```{r age, warning=FALSE, echo=FALSE}
-covMasAgeLong <- gather(covMasAge%>% select(-X),key="key", value="value", -date)
+covMasAgeLong <- gather(covMasAge %>% mutate(date=as.Date(date, "%Y-%m-%d")) %>% select(-X),key="key", value="value", -date)
 
 names(covMasAgeLong)[2] <- "Class"
-covMasAgeLong %>% filter(Class %in% c("below19s","Age20s","Age30s", "Age40s", "Age50s", "Age60s", "above70", "ageUnknown"))%>% ggplot(aes(as.Date(date, "%Y-%m-%d"), value,color=Class))+geom_line(size=1)+geom_point(size=3)+xlab("")+ ylab("Number of people infected CovID-19")
+p <- covMasAgeLong %>% filter(Class %in% c("below19s","Age20s","Age30s", "Age40s", "Age50s", "Age60s", "above70", "ageUnknown"))%>% ggplot(aes(date, value, color = Class)) + geom_line(size = .5) + geom_point(size = 1) + xlab("") + ylab("Number of people infected CovID-19")
+ggplotly(p)
 ```

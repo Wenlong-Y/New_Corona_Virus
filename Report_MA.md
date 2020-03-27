@@ -14,6 +14,7 @@ Massachusetts:
 ![](Report_MA_files/figure-gfm/plotting-1.png)<!-- -->
 
 The daily changes:
+
 ![](Report_MA_files/figure-gfm/plotting%20for%20daily%20changes-1.png)<!-- -->
 
 Here’s some detailed information about the people who are diagnoised

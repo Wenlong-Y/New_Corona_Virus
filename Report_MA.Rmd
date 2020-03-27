@@ -44,6 +44,7 @@ plot_grid(p1, p2, ncol = 1, align = "v")
 ```
 
 The daily changes:
+
 ```{r plotting for daily changes, warning=FALSE, echo=FALSE}
 covMasDaylong <- gather(covMasDay %>% mutate(date=as.Date(date, "%Y-%m-%d")) %>% select(-X), key="key", value="value", -date)
 names(covMasDaylong)[2] <- "Class"

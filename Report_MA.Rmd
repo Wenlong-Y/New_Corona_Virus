@@ -28,10 +28,18 @@ covMasAge <- read.csv("covmasAge.csv")
 Number of confirmed, suspected, total (confirmed+suspected) and death in Massachusetts:
 
 
-```{r plotting, warning=FALSE, echo=FALSE}
+```{r plotting, warning=FALSE, echo=FALSE， message=FALSE}
 covMaslong <- gather(covMas%>% select(-X), key="key", value="value", -date)
 names(covMaslong)[2] <- "Class"
-covMaslong %>% filter(Class %in% c("presumptive","confirmed","total", "death"))%>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+p1 <- covMaslong %>% filter(Class %in% c("presumptive","confirmed","total", "death"))%>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+covUS <-read.csv("https://covidtracking.com/api/us/daily.csv")
+covUS <- covUS %>% mutate(date = as.Date(as.character(date),"%Y%m%d"), US_confirmed = positive, US_deaths = death) %>% select(date, US_confirmed, US_deaths)
+covUSlong <- gather(covUS, key="key", value="value", -date)
+names(covUSlong)[2] <- "Class"
+p2 <- covUSlong %>% filter(Class %in% c("US_confirmed","US_deaths"))%>% ggplot(aes(as.Date(date, "%Y-%m-%d"),value,color=Class,shape=Class))+geom_line(size=1)+geom_point(size=3)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+library(cowplot)
+
+plot_grid(p1, p2, ncol = 1, align="v")
 ```
 
 The daily changes:

@@ -28,9 +28,9 @@ By gender:
 
 By how people were infected:
 
-    ## Warning: Removed 4 row(s) containing missing values (geom_path).
+    ## Warning: Removed 8 row(s) containing missing values (geom_path).
 
-    ## Warning: Removed 4 rows containing missing values (geom_point).
+    ## Warning: Removed 8 rows containing missing values (geom_point).
 
 ![](Report_MA_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 

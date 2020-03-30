@@ -71,14 +71,6 @@ covMasDetSexlong %>% ggplot(aes(date, value, color=Class, shape = Class)) + geom
 #ggplotly(p)
 ```
 
-By how people were infected:
-
-```{r, echo=FALSE}
-covMasDetWhylong <- gather(covMasDet %>% mutate(date=as.Date(date, "%Y-%m-%d")) %>% select(-X) %>% select(date,Biogen,Travel,LocalTransmission,UnkownReason), key="key", value="value", -date)
-names(covMasDetWhylong)[2] <- "Class"
-covMasDetWhylong %>% ggplot(aes(date, value, color = Class, shape = Class)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
-#ggplotly(p)
-```
 
 Whether the patient is treated in hospital:
 

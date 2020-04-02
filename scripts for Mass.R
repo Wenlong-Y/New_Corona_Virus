@@ -41,8 +41,8 @@ covMAvsUS <- rbind(covUSlong, covMalong)
 #covMas <- rbind(covMas,data.frame(date=make_date(2020,3,6),presumptive=7, confirmed=1, total=8, quarantined =, Quarfinished =, quarantNow= ))
 
 #Daily task
-#covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,3,22)),presumptive=NA, confirmed=NA, total=646, death=5, quarantined =2054, Quarfinished = 886, quarantNow=1168))
-#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,3,25)),Barnstable=51, Berkshire=71, Bristol=67, DukesNantucket=3, Essex=177, Franklin=14, Hampden=45, Hampshire=11, Middlesex=446, Norfolk=222, Plymouth=101, Suffolk=342, Worcester=129, CntUnknown=159,Female=903, Male=933, sexUnknown=2, Biogen=99, Travel=92, LocalTransmission=146, UnkownReason=1501, hospitalized= 103, notHospitalized=350,Hosunknown=1385))
+#covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,4,2)),presumptive=NA, confirmed=NA, total=8966, death=154, quarantined =8394, Quarfinished = 3218, quarantNow=5176))
+#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,4,1)),Barnstable=255, Berkshire=183, Bristol=366, Dukes=5, Essex=885, Franklin=72, Hampden=475, Hampshire=81, Middlesex=1582, Nantucket=7, Norfolk=829, Plymouth=561, Suffolk=1624, Worcester=563, CntUnknown=251,Female=3959, Male=3733, sexUnknown=46, Biogen=NA, Travel=NA, LocalTransmission=NA, UnkownReason=NA, hospitalized= 682, notHospitalized=2340,Hosunknown=4716))
 #covMasDay <- covMas %>% arrange(date) %>% mutate(newConfirm=c(0,diff(confirmed)),newPresum=c(0,diff(presumptive)),newTotal=c(0,diff(total)), newDeath=c(0,diff(death))) %>% select(date,newPresum,newConfirm,newTotal,newDeath)
 #covMasAge <- rbind(covMasAge %>% select(-X), data.frame(date=as.character(make_date(2020,3,25)), below19=41, Age20s=326, Age30s=322, Age40s=313, Age50s=330, Age60s=249, above70=255, ageUnknown=2)  )
 

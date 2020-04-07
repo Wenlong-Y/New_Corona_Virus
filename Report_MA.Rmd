@@ -88,6 +88,6 @@ By age:
 covMasAgeLong <- gather(covMasAge %>% mutate(date=as.Date(date, "%Y-%m-%d")) %>% select(-X),key="key", value="value", -date)
 
 names(covMasAgeLong)[2] <- "Class"
-covMasAgeLong %>% filter(Class %in% c("below19s","Age20s","Age30s", "Age40s", "Age50s", "Age60s", "above70", "ageUnknown"))%>% ggplot(aes(date, value, color = Class)) + geom_line(size = .5) + geom_point(size = 1) + xlab("") + ylab("Number of people infected CovID-19")
+covMasAgeLong %>% filter(Class %in% c("below19s","Age20s","Age30s", "Age40s", "Age50s", "Age60s", "Age70s", "above80", "ageUnknown"))%>% ggplot(aes(date, value, color = Class)) + geom_line(size = .5) + geom_point(size = 1) + xlab("") + ylab("Number of people infected CovID-19")
 #ggplotly(p)
 ```

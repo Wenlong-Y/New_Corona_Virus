@@ -28,9 +28,9 @@ By gender:
 
 Whether the patient is treated in hospital:
 
-    ## Warning: Removed 3 row(s) containing missing values (geom_path).
+    ## Warning: Removed 9 row(s) containing missing values (geom_path).
 
-    ## Warning: Removed 3 rows containing missing values (geom_point).
+    ## Warning: Removed 9 rows containing missing values (geom_point).
 
 ![](Report_MA_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 

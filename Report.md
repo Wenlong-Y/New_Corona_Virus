@@ -32,12 +32,12 @@ the previous day.
 We tide up the data with commands below:
 
 ``` r
-dataDay <- x$chinaDayList %>% mutate(confirm = as.numeric(confirm), suspect = as.numeric(suspect), dead = as.numeric(dead), heal = as.numeric(heal), deathoverconfirm = dead/confirm)
+dataDay <- x$chinaDayList %>% mutate(confirm = as.numeric(confirm), imported = as.numeric(importedCase), suspect = as.numeric(suspect), dead = as.numeric(dead), heal = as.numeric(heal), deathoverconfirm = dead/confirm)
 dataDay <- dataDay %>% extract(date,c("month","day"), regex = "^(\\d+)\\.(\\d+)$",remove = FALSE) 
 dataDay <- dataDay %>% mutate(month = as.numeric(month), day = as.numeric(day))
 dataDay <- dataDay %>% mutate(date = make_date(2020,month,day))
 
-dataAdd <- x$chinaDayAddList %>% mutate(confirm = as.numeric(confirm), suspect = as.numeric(suspect), dead = as.numeric(dead), heal = as.numeric(heal), deathoverconfirm = dead/confirm)
+dataAdd <- x$chinaDayAddList %>% mutate(confirm = as.numeric(confirm), imported = as.numeric(importedCase), suspect = as.numeric(suspect), dead = as.numeric(dead), heal = as.numeric(heal), deathoverconfirm = dead/confirm)
 dataAdd <- dataAdd %>% extract(date,c("month","day"), regex = "^(\\d+)\\.(\\d+)$",remove = FALSE) 
 dataAdd <- dataAdd %>% mutate(month = as.numeric(month), day = as.numeric(day))
 dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
@@ -49,12 +49,12 @@ The last updated time (Beijing Time)is
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-04-17 09:36:02"
+    ## [1] "2020-04-18 08:13:09"
 
 Now we present the total number of confirmed and suspected respectively.
 
 ``` r
-dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_point(aes(date,suspect,color="Suspect")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("blue","red"))
+dataDay %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_point(aes(date,suspect,color="Suspect")) +geom_point(aes(date,imported,color="Imported"))+theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("blue","green","red"))
 ```
 
 ![](Report_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
@@ -70,7 +70,7 @@ fitted with data during this period.
 ``` r
 dataDay <- dataDay %>% mutate(confandsusp = confirm + suspect)
 dataforfitting <- dataDay %>% filter(date > make_date(2020,1,27) & date < make_date(2020,2,9)) 
-dataDay %>% mutate(confandsusp = nowConfirm + suspect) %>% ggplot(aes(date,confandsusp))+geom_point()
+dataDay %>% mutate(confandsusp = nowConfirm + suspect) %>% ggplot()+geom_point(aes(date,confandsusp,col="Current case"))+ geom_point(aes(date,imported,col="imported current case"))
 ```
 
 ![](Report_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
@@ -105,7 +105,7 @@ dataDay %>% ggplot() + geom_point(aes(date,dead,colour="Dead")) +geom_point(aes(
 Now we present the new cases on each day:
 
 ``` r
-dataAdd %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_point(aes(date,suspect,color="Suspect")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("blue","red"))
+dataAdd %>% ggplot() + geom_point(aes(date,confirm,colour="Confirmed")) +geom_point(aes(date,suspect,color="Suspect"))+geom_point(aes(date,imported,color="Imported")) +theme(legend.position="right")+ylab("Number of cases")+labs(colour="Type")+scale_color_manual(values=c("blue","red","green"))
 ```
 
 ![](Report_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
@@ -145,6 +145,8 @@ Detailed information for each province:
 
 ``` r
 y <- load_nCov2019(lang = "en")
+y$data$city <- replace(y$data$city, is.na(y$data$city), "foreign_imported")
+y$data <- y$data %>% group_by(city, province, time) %>% mutate(cum_confirm = sum(cum_confirm))
 ```
 
 ``` r

@@ -17,7 +17,7 @@ remotes::install_github("GuangchuangYu/nCov2019")
 Sys.setlocale(category = "LC_ALL", locale = "chs")
 ```
 
-    ## [1] "LC_COLLATE=Chinese (Simplified)_China.936;LC_CTYPE=Chinese (Simplified)_China.936;LC_MONETARY=Chinese (Simplified)_China.936;LC_NUMERIC=C;LC_TIME=Chinese (Simplified)_China.936"
+    ## [1] "LC_COLLATE=Chinese (Simplified)_People's Republic of China.936;LC_CTYPE=Chinese (Simplified)_People's Republic of China.936;LC_MONETARY=Chinese (Simplified)_People's Republic of China.936;LC_NUMERIC=C;LC_TIME=Chinese (Simplified)_People's Republic of China.936"
 
 ``` r
 library(nCov2019)
@@ -48,7 +48,7 @@ dataAdd <- dataAdd %>% mutate(date = make_date(2020,month,day))
 x$lastUpdateTime
 ```
 
-    ## [1] "2020-04-21 08:58:08"
+    ## [1] "2020-04-23 20:43:51"
 
 确诊和疑似病例的数据如下：
 

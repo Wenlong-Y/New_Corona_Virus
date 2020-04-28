@@ -40,7 +40,7 @@ covMAvsUS <- rbind(covUSlong, covMalong)
 
 #Daily task
 #covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,4,22)),presumptive=NA, confirmed=NA, total=42944, death=2182, quarantined =22952, Quarfinished = 13480, quarantNow=9472))
-#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,4,12)),Barnstable=501, Berkshire=350, Bristol=1327, Dukes=12, Essex=3170, Franklin=143, Hampden=1647, Hampshire=219, Middlesex=5660, Nantucket=9, Norfolk=2649, Plymouth=2024, Suffolk=5359, Worcester=2032, CntUnknown=373,Female=13315, Male=11390, sexUnknown=770, Biogen=NA, Travel=NA, LocalTransmission=NA, UnkownReason=NA, hospitalized= 2235, notHospitalized=6455,Hosunknown=16785))
+#covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,4,28)),Barnstable=820, Berkshire=430, Bristol=3270, Dukes=15, Essex=7972, Franklin=237, Hampden=3546, Hampshire=509, Middlesex=13417, Nantucket=11, Norfolk=5567, Plymouth=4744, Suffolk=12140, Worcester=4999, CntUnknown=625,Female=31258, Male=25593, sexUnknown=NA, Biogen=NA, Travel=NA, LocalTransmission=NA, UnkownReason=NA, hospitalized= 3875, notHospitalized=NA,Hosunknown=NA))
 #covMasDay <- covMas %>% arrange(date) %>% mutate(newConfirm=c(0,diff(confirmed)),newPresum=c(0,diff(presumptive)),newTotal=c(0,diff(total)), newDeath=c(0,diff(death))) %>% select(date,newPresum,newConfirm,newTotal,newDeath)
 #covMasAge <- rbind(covMasAge %>% select(-X), data.frame(date=as.character(make_date(2020,3,25)), below19=41, Age20s=326, Age30s=322, Age40s=313, Age50s=330, Age60s=249, Age70s=1020, above80=255, ageUnknown=2)  )
 

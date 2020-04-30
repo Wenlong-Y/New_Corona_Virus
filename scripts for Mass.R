@@ -37,7 +37,7 @@ covMAvsUS <- rbind(covUSlong, covMalong)
 
 #sources <- rbind(sources %>% select(-X),data.frame(date=as.character(make_date(2020,3,14)),url="https://www.mass.gov/doc/covid-19-cases-in-massachusetts-as-of-march-14-2020-accessible/download"))
 
-
+# setwd("./New_Corona_Virus/")
 #Daily task
 #covMas <- rbind(covMas %>% select(-X),data.frame(date=as.character(make_date(2020,4,29)),presumptive=NA, confirmed=NA, total=60265, death=3405, quarantined =27939, Quarfinished = 17659, quarantNow=10280))
 #covMasDet <- rbind(covMasDet %>% select(-X),data.frame(date=as.character(make_date(2020,4,28)),Barnstable=820, Berkshire=430, Bristol=3270, Dukes=15, Essex=7972, Franklin=237, Hampden=3546, Hampshire=509, Middlesex=13417, Nantucket=11, Norfolk=5567, Plymouth=4744, Suffolk=12140, Worcester=4999, CntUnknown=625,Female=31258, Male=25593, sexUnknown=NA, Biogen=NA, Travel=NA, LocalTransmission=NA, UnkownReason=NA, hospitalized= 3875, notHospitalized=NA,Hosunknown=NA))

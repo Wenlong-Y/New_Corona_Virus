@@ -24,17 +24,17 @@ positive. Here are the distribution by county:
 
 By gender:
 
-    ## Warning: Removed 9 row(s) containing missing values (geom_path).
+    ## Warning: Removed 10 row(s) containing missing values (geom_path).
 
-    ## Warning: Removed 13 rows containing missing values (geom_point).
+    ## Warning: Removed 14 rows containing missing values (geom_point).
 
 ![](Report_MA_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 Whether the patient is treated in hospital:
 
-    ## Warning: Removed 44 row(s) containing missing values (geom_path).
+    ## Warning: Removed 46 row(s) containing missing values (geom_path).
 
-    ## Warning: Removed 50 rows containing missing values (geom_point).
+    ## Warning: Removed 52 rows containing missing values (geom_point).
 
 ![](Report_MA_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 

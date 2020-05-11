@@ -48,5 +48,11 @@ age <- age %>% mutate(rate_Hospitalization = Hospitalized/Cases * 100, rate_Deat
 age %>% ggplot(aes(Date, rate_Hospitalization, color=Age)) + geom_line(size = .5) + geom_point(size = 1) + ylab("Percentage of Hospitalization by Age") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
 age %>% ggplot(aes(Date, rate_Death, color=Age)) + geom_line(size = .5) + geom_point(size = 1) + ylab("Percentage of Death by Age") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
 
-
+#plotting data by county
+county <- read.csv("./data/County.csv")
+county <- county %>% mutate(Date=as.Date(Date, "%m/%d/%Y"))
+county %>% ggplot(aes(Date, Count, color=County)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+county %>% filter( Date >as.Date("2020/04/01"))%>% ggplot(aes(Date, Deaths, color=County)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+county <- county %>% mutate(death_rate = Deaths/Count * 100)
+county %>% filter( Date >as.Date("2020/04/01"))%>% ggplot(aes(Date, death_rate, color=County)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
 

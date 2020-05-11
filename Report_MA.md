@@ -17,27 +17,23 @@ The daily changes:
 
 ![](Report_MA_files/figure-gfm/plotting%20for%20daily%20changes-1.png)<!-- -->
 
-Here’s some detailed information about the people who are diagnoised
-positive. Here are the distribution by county:
+Accumulated deaths related to Covid-19:
 
-![](Report_MA_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](Report_MA_files/figure-gfm/plotting%20for%20deaths-1.png)<!-- -->
 
-By gender:
+Death per day:
 
-    ## Warning: Removed 10 row(s) containing missing values (geom_path).
+![](Report_MA_files/figure-gfm/plotting%20for%20deaths%20per%20day-1.png)<!-- -->
 
-    ## Warning: Removed 14 rows containing missing values (geom_point).
+Data related to gender:
 
-![](Report_MA_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](Report_MA_files/figure-gfm/plotting%20for%20cases%20by%20gender-1.png)<!-- -->
 
-Whether the patient is treated in hospital:
+Data related to age, where the percentage is calculated among people who
+are/were infected by Covid-19:
 
-    ## Warning: Removed 46 row(s) containing missing values (geom_path).
+![](Report_MA_files/figure-gfm/plotting%20for%20cases%20by%20age-1.png)<!-- -->![](Report_MA_files/figure-gfm/plotting%20for%20cases%20by%20age-2.png)<!-- -->![](Report_MA_files/figure-gfm/plotting%20for%20cases%20by%20age-3.png)<!-- -->
 
-    ## Warning: Removed 52 rows containing missing values (geom_point).
+Data by County:
 
-![](Report_MA_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
-
-By age:
-
-![](Report_MA_files/figure-gfm/age-1.png)<!-- -->
+![](Report_MA_files/figure-gfm/plotting%20for%20cases%20by%20county-1.png)<!-- -->![](Report_MA_files/figure-gfm/plotting%20for%20cases%20by%20county-2.png)<!-- -->![](Report_MA_files/figure-gfm/plotting%20for%20cases%20by%20county-3.png)<!-- -->

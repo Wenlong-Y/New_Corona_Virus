@@ -19,20 +19,21 @@ Here are the total number of confirmed cases and death in Massatuessas and US:
 library(tidyverse)
 library(lubridate)
 library(cowplot)
-covMas <- read.csv("covmas.csv")
-sources <- read.csv("masSources.csv")
-covMasDet <- read.csv("covmasdetail.csv")
-covMasDay <- read.csv("covmasday.csv")
-covMasAge <- read.csv("covmasAge.csv")
+url_zip <- "https://www.mass.gov/doc/covid-19-raw-data-may-10-2020/download"
+download(url_zip, dest=temp, mode="wb") 
+dir.create("./data")
+unzip (temp, exdir = "./data")
 ```
 
 Number of confirmed, suspected, total (confirmed+suspected) and death in Massachusetts:
 
 
 ```{r plotting, warning=FALSE, echo=FALSE， message=FALSE}
-covMaslong <- gather(covMas %>% mutate(date=as.Date(date, "%Y-%m-%d")) %>% select(-X), key="key", value="value", -date)
-names(covMaslong)[2] <- "Class"
-p1 <- covMaslong %>% filter(Class %in% c("presumptive","confirmed","total", "death"))%>% ggplot(aes(date,value,color=Class,shape=Class))+geom_line(size=.5)+geom_point(size=1)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+cases <- read.csv("./data/Cases.csv")
+caseslong <- gather(cases %>% mutate(Date=as.Date(Date, "%m/%d/%Y")) %>% select(Date, Cases), key="key", value="value", -Date)
+names(caseslong)[2] <- "Category"
+caseslong %>% ggplot(aes(Date, value, color=Category, shape = Category)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+
 covUS <-read.csv("https://covidtracking.com/api/us/daily.csv")
 covUS <- covUS %>% mutate(date = as.Date(as.character(date),"%Y%m%d"), US_confirmed = positive, US_deaths = death) %>% select(date, US_confirmed, US_deaths)
 covUSlong <- gather(covUS, key="key", value="value", -date)

@@ -1,0 +1,102 @@
+---
+title: "CoronaVirus in MASSACHUSETTS"
+author: "WY"
+date: "3/12/2020"
+output:
+  github_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+The data was obtained from online sources
+
+Here are the total number of confirmed cases and death in Massatuessas and US:
+```{r loading libraries and data, message=FALSE, warning=FALSE, echo=FALSE}
+library(tidyverse)
+library(lubridate)
+library(cowplot)
+library(downloader)
+data_dir = "./data"
+dir.create(data_dir)
+url_zip <- "https://www.mass.gov/doc/covid-19-raw-data-may-10-2020/download"
+download(url_zip, dest="./data/dataset.zip", mode="wb") 
+
+unzip ("./data/dataset.zip", exdir = "./data")
+```
+
+Number of confirmed, suspected, total (confirmed+suspected) and death in Massachusetts:
+
+
+```{r plotting, warning=FALSE, echo=FALSE， message=FALSE}
+cases <- read.csv("./data/Cases.csv")
+caseslong <- gather(cases %>% mutate(Date=as.Date(Date, "%m/%d/%Y")) %>% select(Date, Cases), key="key", value="value", -Date)
+names(caseslong)[2] <- "Category"
+p1 <- caseslong %>% ggplot(aes(Date, value, color=Category, shape = Category)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+
+covUS <-read.csv("https://covidtracking.com/api/us/daily.csv")
+covUS <- covUS %>% mutate(date = as.Date(as.character(date),"%Y%m%d"), US_confirmed = positive, US_deaths = death) %>% select(date, US_confirmed, US_deaths)
+covUSlong <- gather(covUS, key="key", value="value", -date)
+names(covUSlong)[2] <- "Class"
+p2 <- covUSlong %>% filter(Class %in% c("US_confirmed","US_deaths"))%>% ggplot(aes(date,value,color=Class,shape=Class))+geom_line(size=.5)+geom_point(size=1)+ylab("numbers of people")+xlab("")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+plot_grid(p1, p2, ncol = 1, align = "v")
+#ggplotly(p1)
+#ggplotly(p2)
+```
+
+The daily changes:
+
+```{r plotting for daily changes, warning=FALSE, echo=FALSE}
+caseslong <- gather(cases %>% mutate(Date=as.Date(Date, "%m/%d/%Y")) %>% select(Date, New), key="key", value="value", -Date)
+names(caseslong)[2] <- "Category"
+caseslong %>% ggplot(aes(Date, value, color=Category, shape = Category)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+
+Accumulated deaths related to Covid-19:
+
+```{r plotting for deaths, warning=FALSE, echo=FALSE}
+death <- read.csv("./data/DateofDeath.csv")
+death <- death %>% mutate(Date=as.Date(Date.of.Death, "%m/%d/%Y"))
+death %>% ggplot(aes(Date, Running.Total)) + geom_line(size = .5) + geom_point(size = 1) + ylab("Acuumulated number of Deaths") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+
+Death per day:
+
+```{r plotting for deaths per day, warning=FALSE, echo=FALSE}
+death %>% ggplot(aes(Date, New.Deaths)) + geom_line(size = .5) + geom_point(size = 1) + ylab("Daily New Deaths") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+
+Data related to gender:
+
+```{r plotting for cases by gender, warning=FALSE, echo=FALSE}
+sex <- read.csv("./data/Sex.csv")
+sexlong <- gather(sex %>% mutate(Date=as.Date(Date, "%m/%d/%Y")), key="key", value="value", -Date)
+names(sexlong)[2] <- "Sex"
+sexlong %>% ggplot(aes(Date, value, color=Sex, shape = Sex)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of cases") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+
+Data related to age, where the percentage is calculated among people who are/were infected by Covid-19:
+
+```{r plotting for cases by age, warning=FALSE, echo=FALSE}
+age <- read.csv("./data/Age.csv")
+age <- age %>% mutate(Date=as.Date(Date, "%m/%d/%Y"))
+age %>% ggplot(aes(Date, Cases, color=Age)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+age <- age %>% mutate(rate_Hospitalization = Hospitalized/Cases * 100, rate_Death = Deaths/Cases * 100)
+age %>% ggplot(aes(Date, rate_Hospitalization, color=Age)) + geom_line(size = .5) + geom_point(size = 1) + ylab("Percentage of Hospitalization by Age") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+age %>% ggplot(aes(Date, rate_Death, color=Age)) + geom_line(size = .5) + geom_point(size = 1) + ylab("Percentage of Death by Age") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+
+
+Data by County:
+
+```{r plotting for cases by county, warning=FALSE, echo=FALSE}
+county <- read.csv("./data/County.csv")
+county <- county %>% mutate(Date=as.Date(Date, "%m/%d/%Y"))
+county %>% ggplot(aes(Date, Count, color=County)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+county %>% filter( Date >as.Date("2020/04/01"))%>% ggplot(aes(Date, Deaths, color=County)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+county <- county %>% mutate(death_rate = Deaths/Count * 100)
+county %>% filter( Date >as.Date("2020/04/01"))%>% ggplot(aes(Date, death_rate, color=County)) + geom_line(size = .5) + geom_point(size = 1) + ylab("numbers of people") + xlab("") + theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```

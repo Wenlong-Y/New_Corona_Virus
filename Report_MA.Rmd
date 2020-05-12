@@ -22,7 +22,7 @@ library(cowplot)
 library(downloader)
 data_dir = "./data"
 dir.create(data_dir)
-url_zip <- "https://www.mass.gov/doc/covid-19-raw-data-may-10-2020/download"
+url_zip <- "https://www.mass.gov/doc/covid-19-raw-data-may-11-2020/download"
 download(url_zip, dest="./data/dataset.zip", mode="wb") 
 
 unzip ("./data/dataset.zip", exdir = "./data")
